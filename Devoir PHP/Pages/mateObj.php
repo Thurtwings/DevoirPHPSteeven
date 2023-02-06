@@ -1,5 +1,6 @@
 <?php 
     $obj = new Objet(0);
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,17 +11,19 @@
     <title>Document</title>
 </head>
 <body>
+
+                
     <div class="container">
         <div class="row">
             <div class="row ">
-            <div class="col-12 text-center">
-                <button id="pair_snakes" class="btn btn-primary">Pair Snakes</button>
+                <div class="col-12 text-center">
+                    <button id="pair_snakes" class="btn btn-primary">Pair Snakes</button>
             </div>
         </div>
             <div class="col-6">
                 <h2>Males</h2>
                 <?php 
-                    foreach ($obj->SelectAll(false, false) as $value) 
+                    foreach ($obj->SelectAll($sort) as $value) 
                     {
                         if($value["snake_gender"] == "Male" && $value["snake_dead"] == 0)
                         {
@@ -42,7 +45,7 @@
             <div class="col-6">
                 <h2>Females</h2>
                 <?php 
-                    foreach ($obj->SelectAll(false, true) as $value) 
+                    foreach ($obj->SelectAll($sort) as $value) 
                     {
                         if($value["snake_gender"] == "Female" && $value["snake_dead"] == 0)
                         {

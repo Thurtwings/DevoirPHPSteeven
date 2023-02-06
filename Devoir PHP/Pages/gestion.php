@@ -1,20 +1,26 @@
 <?php 
 
-    $obj = new Objet(0); 
-    $gender = false;
-    $specie = false;
+    $obj = new Objet(0);
+    $sort = null;
+
     if(isset($_POST["generate"]))
     {
         $obj->AddRandomAmountOfSnake(rand(1,30), false);
     }
     if(isset($_POST["SortGender"]))
     {
-        $obj->SelectAll($gender, $specie);
-        echo"";
+        // $obj->SelectAll("gender");
+        $sort = "gender";
+    }
+    if(isset($_POST["SortId"]))
+    {
+        // $obj->SelectAll();
+        $sort = null;
     }
     if(isset($_POST["SortSpecie"]))
     {
-        $obj->SelectAll($gender, $specie);
+        // $obj->SelectAll("specie");
+        $sort = "specie";
     }
 
 ?>
@@ -27,8 +33,8 @@
                 <button type="submit" class="btn btn-primary col-1" name="generate"> Generate </button>
                 <button type="submit" class="btn btn-primary col-1" name="SortGender"> Sort by Gender</button>
                 <button type="submit" class="btn btn-primary col-1" name="SortSpecie"> Sort by specie</button>
+                <button type="submit" class="btn btn-primary col-1" name="SortId"> Sort by id</button>
                 <a href="index.php?page=mateObj" class="btn btn-primary col-1"> Mating </a> 
-
             </div>
         </div>
     </div>
@@ -74,7 +80,7 @@
 </table>
 </div>
 <?php
-    foreach($obj->SelectAll($gender, $specie) as $value) 
+    foreach($obj->SelectAll($sort) as $value) 
     {
         
         ?>
@@ -85,15 +91,15 @@
                 <div class="col-12">
                     <div class="row">
                         <td class="col-1 text-center border"><a href="index.php?page=modifObj&id=<?php echo $value["snake_id"]; ?>">Modifier</a> </td>
-                        <td class="col-1 border text-center "><?php echo $value["snake_id"]; ?>  </td>
-                        <td class="col-1 border text-center "><?php echo $value["snake_name"];   ?></td>
-                        <td class="col-1 border text-center ">   <?php echo $value["snake_weight"]; ?> kg </td>
-                        <td class="col-1 border text-center ">   <?php echo $value["snake_H_DoB"]; ?>  </td>
-                        <td class="col-1 border text-center ">   <?php echo $value["snake_lifespan"]; ?> months</td>
-                        <td class="col-1 border text-center ">   <?php echo $value["snake_specie"]; ?>  </td>
-                        <td class="col-1 border text-center ">   <?php echo $value["snake_gender"]; ?>  </td>
-                        <td class="col-1 border text-center ">   <?php echo $value["snake_dad"]; ?>  </td>
-                        <td class="col-1 border text-center ">   <?php echo $value["snake_mom"]; ?>  </td>
+                        <td class="col-1 border text-center ">  <?php echo $value["snake_id"]; ?>  </td>
+                        <td class="col-1 border text-center ">  <?php echo $value["snake_name"];   ?></td>
+                        <td class="col-1 border text-center ">  <?php echo $value["snake_weight"]; ?> kg </td>
+                        <td class="col-1 border text-center ">  <?php echo $value["snake_H_DoB"]; ?>  </td>
+                        <td class="col-1 border text-center ">  <?php echo $value["snake_lifespan"]; ?> months</td>
+                        <td class="col-1 border text-center ">  <?php echo $value["snake_specie"]; ?>  </td>
+                        <td class="col-1 border text-center ">  <?php echo $value["snake_gender"]; ?>  </td>
+                        <td class="col-1 border text-center ">  <?php echo $value["snake_dad"]; ?>  </td>
+                        <td class="col-1 border text-center ">  <?php echo $value["snake_mom"]; ?>  </td>
                         <?php 
 
                         if($value["snake_dead"] == 0) 

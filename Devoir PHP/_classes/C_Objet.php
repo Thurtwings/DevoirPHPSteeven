@@ -6,8 +6,7 @@ class Objet
     public $sql ="";
     private $snakesNames = array("Zarce", "Chiksha", "Szaccolhai", "Xaxsairral", "Adhiso", "Chastha", "Nisat", "Ostibhat", "Movastha", "Ladrarkattra", "Iraazs", "Yessish", "Kuscasasj", "Talicsie", "Irjace", "Ashpa", "Khivya", "Vrirmadmu", "Sakitha", "Atahasha", "Aco", "Eksaa", "Crudjuckaazs", "Odizhaash", "Erkuxzai", "Tika", "Ati", "Khahirka", "Isashpat", "Hoswatrala");
     private $snakesSpecies = array("Cobra", "Anaconda", "Python", "Boa", "Mamba Noir", "Vipère", "Python", "Couleuvre", "Serpent à sonnette", "Serpent corail", "Serpent vert", "Serpent de mer", "Serpent à lunettes");
-    public $sortedGender = false;
-    public $sortedSpecie = false;
+   
     public function __construct($id)
     {
         $this->index = $id;
@@ -48,38 +47,17 @@ class Objet
         $tlbresult = $result ->fetchAll();
         return $tlbresult[0][0];
     }
-    public function SelectAll($sortedGender, $sortedSpecie)
+    public function SelectAll($sort = null)
     {
-        if($sortedGender = false || $sortedSpecie = false)
-        {
-            $req = "SELECT * FROM `".$this->SQL_tab."`";
-            $result = $this->sql->query($req);
-            $tlbresult = $result ->fetchAll();
-            return $tlbresult;
+        $req = "SELECT * FROM `".$this->SQL_tab."`";
+        if ($sort === "specie") {
+            $req .= " ORDER BY `snakes`.`snake_specie` ASC";
+        } elseif ($sort === "gender") {
+            $req .= " ORDER BY `snakes`.`snake_gender` ASC";
         }
-        elseif($sortedGender = true)
-        {
-            $sortedSpecie = false;
-            $req = "SELECT * FROM `snakes` ORDER BY `snakes`.`snake_gender` ASC";
-            $result = $this->sql->query($req);
-            $tlbresult = $result ->fetchAll();
-            return $tlbresult;
-            echo "trié par genre";
-
-        }
-        elseif($sortedSpecie = true)
-        {
-            $sortedGender = false;
-            $req = "SELECT * FROM `snakes` ORDER BY `snakes`.`snake_specie` ASC";
-            $result = $this->sql->query($req);
-            $tlbresult = $result ->fetchAll();
-            return $tlbresult;
-            echo "trié par espèce";
-        }
-         $sortedSpecie = false;
-         $sortedGender = false;
-        
-        
+        $result = $this->sql->query($req);
+        $tlbresult = $result ->fetchAll();
+        return $tlbresult;
     }
 
     public function Get($column)
@@ -122,21 +100,18 @@ class Objet
 
     public function SortBySpecie(){
         $req = "SELECT * FROM `snakes` ORDER BY `snakes`.`snake_specie` ASC";
-        $this->sql->query($req);
+        $result = $this->sql->query($req);
+        $tlbresult = $result ->fetchAll();
+        return $tlbresult;
     }
-    public function SortByGender($gender)
+    public function SortByGender()
     {
-        if($gender == "Male")
-        {
-           $req = "SELECT * FROM `snakes` ORDER BY `snakes`.`snake_gender` ASC";
-        }
-        else
-        {
-            $req = "SELECT * FROM `snakes` ORDER BY `snakes`.`snake_gender` DESC";
-        }
+        
+        $req = "SELECT * FROM `snakes` ORDER BY `snakes`.`snake_gender` ASC";
         echo " les Serpents sont triés";
-
-        $this->sql->query($req);
+        $result = $this->sql->query($req);
+        $tlbresult = $result ->fetchAll();
+        return $tlbresult;
     }
     // Adds an amount of snakes to the collection.
     public function AddRandomAmountOfSnake($amount = 0, $isRandom)
