@@ -3,7 +3,7 @@
 
     if(isset($_POST['SubmitInsert']))
     {
-       $obj = new Objet(0);
+       $obj = new Snake(0);
        $obj->addNew($_POST["snake_name"], $_POST["snake_weight"], $_POST["snake_lifespan"], $_POST["DateOfBirth"], $_POST["snake_specie"], $_POST["snake_gender"] );
     }
      

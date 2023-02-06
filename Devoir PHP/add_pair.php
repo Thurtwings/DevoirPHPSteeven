@@ -1,7 +1,7 @@
 <?php 
-    include("_classes/C_Objet.php");
+    include("_classes/C_Snake.php");
 
-    $obj = new Objet(0);
+    $obj = new Snake(0);
     var_dump($_POST);
     
     $male_snake = $_POST["male_snake_id"];

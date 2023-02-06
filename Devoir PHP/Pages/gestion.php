@@ -1,8 +1,10 @@
 <?php 
 
-    $obj = new Objet(0);
+// Create an instance of the Snake class with an argument of 0 and a sort variable that is used later on to determine witch sort is activated
+    $obj = new Snake(0);
     $sort = null;
 
+    // Check if the "generate, SortGender, SortId, SortSpecie" button was pressed
     if(isset($_POST["generate"]))
     {
         $obj->AddRandomAmountOfSnake(rand(1,30), false);
@@ -45,7 +47,7 @@
     <div class="row">
         <label for="" class="col-12 "> <br>
             Il y a actuellement : 
-            <strong><span class="text-danger"><?php echo $obj->CountAllMales(); ?>  males</span></strong>,
+            <strong><span class="text-danger"><?php echo $obj->CountAllMales(); ?>  males</span></strong>, 
          <strong><span class="text-danger"><?php echo $obj->CountAllFemales(); ?> femelles</span></strong> 
          et <strong><span class="text-danger"><?php echo $obj->CountAllUnidentified(); ?></span></strong> 
          dont le genre n'est pas identifié pour un total de : 

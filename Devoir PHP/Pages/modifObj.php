@@ -1,5 +1,5 @@
 <?php 
-     $obj = new Objet($_GET['id']);
+     $obj = new Snake($_GET['id']);
 
     if(isset($_POST['execute']))
     {

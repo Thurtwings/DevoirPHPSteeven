@@ -1,5 +1,5 @@
 <?php 
-    $obj = new Objet(0);
+    $obj = new Snake(0);
     
 ?>
 <!DOCTYPE html>

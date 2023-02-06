@@ -1,7 +1,7 @@
 <?php
     session_start();
-    include("_classes/C_Human.php");
-    include("_classes/C_Objet.php");
+    
+    include("_classes/C_Snake.php");
 
 if (isset($_POST['log'])) 
 {
@@ -61,13 +61,7 @@ include("referencement.php");
 
     <!-- affice le menu sur toutes les pages -->
     <?php include("menu.php"); ?>
-        
 
-    <?php 
-        if(isset($_SESSION['user_name'])) 
-
-            echo "Bonjour ".$_SESSION['user_name']; 
-    ?>
     <div id="Main">
         <?php
         if (file_exists('Pages/' . $_GET['page'] . '.php')) {

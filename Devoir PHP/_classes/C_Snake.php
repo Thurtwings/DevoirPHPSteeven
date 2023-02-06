@@ -1,12 +1,12 @@
 <?php
-class Objet
+class Snake
 {
     private $SQL_tab = "snakes";
     private $index = "";
     public $sql ="";
     private $snakesNames = array("Zarce", "Chiksha", "Szaccolhai", "Xaxsairral", "Adhiso", "Chastha", "Nisat", "Ostibhat", "Movastha", "Ladrarkattra", "Iraazs", "Yessish", "Kuscasasj", "Talicsie", "Irjace", "Ashpa", "Khivya", "Vrirmadmu", "Sakitha", "Atahasha", "Aco", "Eksaa", "Crudjuckaazs", "Odizhaash", "Erkuxzai", "Tika", "Ati", "Khahirka", "Isashpat", "Hoswatrala");
     private $snakesSpecies = array("Cobra", "Anaconda", "Python", "Boa", "Mamba Noir", "Vipère", "Python", "Couleuvre", "Serpent à sonnette", "Serpent corail", "Serpent vert", "Serpent de mer", "Serpent à lunettes");
-   
+
     public function __construct($id)
     {
         $this->index = $id;
@@ -50,9 +50,13 @@ class Objet
     public function SelectAll($sort = null)
     {
         $req = "SELECT * FROM `".$this->SQL_tab."`";
-        if ($sort === "specie") {
+
+        if ($sort === "specie") 
+        {
             $req .= " ORDER BY `snakes`.`snake_specie` ASC";
-        } elseif ($sort === "gender") {
+        } 
+        elseif ($sort === "gender") 
+        {
             $req .= " ORDER BY `snakes`.`snake_gender` ASC";
         }
         $result = $this->sql->query($req);
@@ -62,10 +66,9 @@ class Objet
 
     public function Get($column)
     {
-       
         $req = "SELECT ".$column." FROM ".$this->SQL_tab." WHERE snake_id  = '".$this->index."'"; 
-       $result = $this->sql->query($req);
-       $tlbresult = $result ->fetchAll();
+        $result = $this->sql->query($req);
+        $tlbresult = $result ->fetchAll();
         return $tlbresult[0][0]; 
     }
 
@@ -73,22 +76,16 @@ class Objet
     
     public function Set($column, $value)
     {
-        
         $req = "UPDATE ".$this->SQL_tab." SET ".$column." = '".$value."' WHERE `snake_id` =".$this->index;
         $this->sql->query($req);
     }
 
     public function addNew($name, $weight, $lifespan, $dateOfBirth, $specie, $gender, $daddy = NULL, $mommy = NULL)
     {
-       
-        
         $req = "INSERT INTO ".$this->SQL_tab." (`snake_id`, `snake_name`, `snake_weight`, `snake_lifespan`, `snake_H_DoB`, `snake_specie`, `snake_gender`, `snake_dad`, `snake_mom`, `snake_dead`) 
         VALUES (NULL, '".$name."','".$weight."', '".$lifespan."', '".$dateOfBirth."', '".$specie."', '".$gender."', '".$daddy."', '".$mommy."', '0')";
         $this->sql->query($req);
-        
-        
     }
-   
 
     // Deletes a snake from the database.
     public function DeleteThisSnake($idSnake)
@@ -161,9 +158,6 @@ class Objet
         $req = "UPDATE `snakes` SET `snake_dead` = '1' WHERE `snakes`.`snake_id` =".$idSnake;
         $this->sql->query($req);
     }
-
- 
-    
 }
 
 

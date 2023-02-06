@@ -2,8 +2,8 @@
 <?php  
 
 // Delete this snake.
-// Get a new Objet object
-    $obj = new Objet($_GET['id']);
+// Get a new Snake object
+    $obj = new Snake($_GET['id']);
 
     if(isset($_POST["yes"]))
     {
