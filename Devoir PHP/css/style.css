@@ -1,0 +1,21 @@
+.form_admin
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    text-decoration: underline;
+
+}
+
+li
+{
+    display: inline;
+    list-style: none;
+    margin-right: 5%;
+}
+
+
