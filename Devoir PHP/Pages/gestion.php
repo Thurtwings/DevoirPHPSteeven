@@ -11,18 +11,20 @@
     }
     if(isset($_POST["SortGender"]))
     {
-        // $obj->SelectAll("gender");
         $sort = "gender";
     }
     if(isset($_POST["SortId"]))
     {
-        // $obj->SelectAll();
         $sort = null;
     }
     if(isset($_POST["SortSpecie"]))
     {
-        // $obj->SelectAll("specie");
         $sort = "specie";
+    }
+    if(isset($_POST["truncate"]))
+    {
+        $obj->TruncateTable();
+        
     }
 
 ?>
@@ -37,6 +39,16 @@
                 <button type="submit" class="btn btn-primary col-1" name="SortSpecie"> Sort by specie</button>
                 <button type="submit" class="btn btn-primary col-1" name="SortId"> Sort by id</button>
                 <a href="index.php?page=mateObj" class="btn btn-primary col-1"> Mating </a> 
+                <button type="submit" name="truncate" class="btn btn-danger text-white col-1">Debug Truncate snakes </button> 
+            </div>
+        </div>
+        <div class="row">
+            <div class="btn-group col-6 offset-3" role="group">
+                <button type="submit" class="btn btn-primary col-1 " name="filterGenderM"> Filter by Gender Males</button>
+                <button type="submit" class="btn btn-primary col-1 " name="filterGenderF"> Filter by Gender Females</button>
+                <button type="submit" class="btn btn-primary col-1 " name="filterOff"> Show all</button>
+                
+                
             </div>
         </div>
     </div>
@@ -52,6 +64,7 @@
          et <strong><span class="text-danger"><?php echo $obj->CountAllUnidentified(); ?></span></strong> 
          dont le genre n'est pas identifié pour un total de : 
             <strong><u><span class="text-danger"><?php echo $obj->CountAll(); ?> serpents</span></u></strong> 
+             il y a <strong><span class="text-danger"><?php echo $obj->CountDeadSnakes(); ?> </span></strong> serpents décédés
             <br><br>
         </label>
     </div>
@@ -92,7 +105,8 @@
             <div class="row">
                 <div class="col-12">
                     <div class="row">
-                        <td class="col-1 text-center border"><a href="index.php?page=modifObj&id=<?php echo $value["snake_id"]; ?>">Modifier</a> </td>
+                        <td class="col-1 text-center border">   
+                            <a href="index.php?page=modifObj&id=<?php echo $value["snake_id"]; ?>">Modifier</a> </td>
                         <td class="col-1 border text-center ">  <?php echo $value["snake_id"]; ?>  </td>
                         <td class="col-1 border text-center ">  <?php echo $value["snake_name"];   ?></td>
                         <td class="col-1 border text-center ">  <?php echo $value["snake_weight"]; ?> kg </td>
