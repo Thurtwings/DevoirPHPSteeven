@@ -58,9 +58,9 @@ class Snake
         $this->sql->query($req);
     }
 
-    public function Set($column, $value)
+    public function Set($column, $value, $id)
     {
-        $req = "UPDATE ".$this->SQL_tab." SET ".$column." = '".$value."' WHERE `snake_id` =".$this->index;
+        $req = "UPDATE ".$this->SQL_tab." SET ".$column." = '".$value."' WHERE `snake_id` ='".$id."'";
         $this->sql->query($req);
     }
 
@@ -118,7 +118,7 @@ class Snake
         }
     }
 
-    
+
 #fonctions fonctionnelle mais temporaire
     public function SnakeReproduction($daddy, $mommy)
     {
@@ -129,16 +129,17 @@ class Snake
         if($randSex == 1)
         {
             $life = rand(3,90);
-            $this->addNew($this->snakesNames[$rdmName], rand(1,50), $life, date('Y-m-d H:i:s'), $this->snakesSpecies[$rdmSpecie],"Male", $this->GetName('snake_name', $daddy), $this->GetName('snake_name', $mommy));
-        }
+            echo ($this->GetName('snake_name', $daddy));
+            $this->addNew($this->snakesNames[$rdmName], rand(1,50), $life, date('Y-m-d H:i'), $this->snakesSpecies[$rdmSpecie],"Male", $this->Set("snake_dad", $this->GetName('snake_name', $daddy), $daddy), $this->Set("snake_mom", $this->GetName('snake_name', $mommy), $mommy));
+        }   
         else
         {
             $life = rand(3,90);
-            $this->addNew($this->snakesNames[$rdmName], rand(1,50), $life, date('Y-m-d H:i:s'), $this->snakesSpecies[$rdmSpecie],"Female", $this->GetName('snake_name', $daddy), $this->GetName('snake_name', $mommy));
+            echo ($this->GetName('snake_name', $daddy));
+            $this->addNew($this->snakesNames[$rdmName], rand(1,50), $life, date('Y-m-d H:i'), $this->snakesSpecies[$rdmSpecie],"Female", $this->Set("snake_dad", $this->GetName('snake_name', $daddy), $daddy), $this->Set("snake_mom", $this->GetName('snake_name', $mommy), $mommy));
         }
 
     }
-
 
 # Fonctions de comptage  
     public function CountAllMales()
@@ -220,14 +221,14 @@ class Snake
 
         date_default_timezone_set('Europe/Paris');
 
-        $today = strtotime(date("Y-m-d H:i:s"));
+        $today = strtotime(date("Y-m-d H:i"));
         $start_date = strtotime("-$months months", $today);
                 
         // Generate random number using above bounds
         $val = rand($start_date, $today);
 
         // Convert back to desired date format
-        return date('Y-m-d H:i:s', $val);
+        return date('Y-m-d H:i', $val);
 
     }
 

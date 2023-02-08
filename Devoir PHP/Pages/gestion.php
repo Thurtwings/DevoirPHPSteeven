@@ -4,7 +4,7 @@
     $obj = new Snake(0);
     $sort = null;
     $filter = null;
-    // Check if the "generate, SortGender, SortId, SortSpecie" button was pressed
+    
     if(isset($_POST["generate"]))
     {
         $obj->AddRandomAmountOfSnake(rand(1,30), false);
@@ -42,7 +42,7 @@
     {
         if(isset($_POST["FilterList"]))
         {
-            $filter = $_POST["submitFilter"];
+            $filter = $_POST["FilterList"];
         }
         
     }
@@ -50,63 +50,65 @@
     {
         if(isset($_POST["SortGender"]))
         {
-            $filter = $_POST["submitSortGender"];
+            $filter = $_POST["SortGender"];
         }
         
     }
-    if(isset($_POST["submitSortSpecie"]))
+    if(isset($_POST["submitFilterSpecie"]))
     {
-        if(isset($_POST["SortSpecie"]))
+        if(isset($_POST["FilterSpecie"]))
         {
-            $filter = $_POST["submitSortSpecie"];
+            $filter = $_POST["FilterSpecie"];
         }
         
     }
 
 ?>
                                     <!-- Boutons d'actions -->
+<br>
 <form action=""  method="POST">
     <div class="container-fluid">
         <div class=" row">
-            <div class="btn-group sticky" role="group">
+            <div class="btn-group" role="group">
                 <a href="index.php?page=insertObj" class="btn btn-primary col-1"> Add a new snake</a> 
                 <button type="submit" class="btn btn-primary col-1" name="generate"> Generate </button>
                 <button type="submit" class="btn btn-primary col-1" name="SortGender"> Sort by Gender</button>
                 <button type="submit" class="btn btn-primary col-1" name="SortSpecie"> Sort by specie</button>
                 <button type="submit" class="btn btn-primary col-1" name="SortId"> Sort by id</button>
                 <a href="index.php?page=mateObj" class="btn btn-primary col-1"> Mating </a> 
-                <button type="submit" name="truncate" class="btn btn-danger text-white col-1">Debug Truncate snakes </button> 
+                <form method="POST" class="">
+                    <select name="FilterList" class="btn btn-primary">
+                        <option value="null"> No Gender Filter   </option>
+                        <option value="M"   > Only Male          </option>
+                        <option value="F"   > Only Female        </option>
+                    </select>
+                    <input type="submit" value="Submit" name="submitGenderFilter">
+                </form>
+                
+                <form method="POST" class="">
+                    <select name="FilterSpecie" class="btn btn-primary">
+                        <option value="null"            >No Specie Filter       </option>
+                        <option value="Viper"           >All Vipers             </option>
+                        <option value="Boa"             >All Boas               </option>
+                        <option value="Python"          >All Pythons            </option>
+                        <option value="Sea Snake"       >All Sea Snakes         </option>
+                        <option value="Rattlesnake"     >All Rattlesnakes       </option>
+                        <option value="Black Mamba"     >All Black Mambas       </option>
+                        <option value="Coral Snake"     >All Coral Snakes       </option>
+                        <option value="Green Snake"     >All Green Snakes       </option>
+                        <option value="Grass Snake"     >All Grass Snakes       </option>
+                        <option value="Spectacled Snake">All Spectacled Snakes  </option>
+                        <option value="Anaconda"        >All Anacondas          </option>
+                        <option value="Cobra"           >All Cobras             </option>
+                    </select>
+                    <input type="submit" value="Submit" name="submitFilterSpecie">
+                </form>
             </div>
         </div>
+        <br><br>
         <div class="row">
-            <div class="btn-group col-6 offset-3" role="group">
-                <form action="" method="POST">
-                    <select name="FilterList" id="" class="btn btn-primary col-1 ">
-                        <option value= "null"   name=""> No Filter  </option>
-                        <option value="M"       name=""> Only Male  </option>
-                        <option value="F"       name=""> Only Female</option>
-                    </select>
-                    <input type="submit" name="submitFilter" >
-                </form>
-                <form action="" method="POST">
-                    <select name="SortGender" id="" class="btn btn-primary col-1 ">
-                        <option value= "null"   name=""> No Filter  </option>
-                        <option value="M"       name=""> Only Male  </option>
-                        <option value="F"       name=""> Only Female</option>
-                    </select>
-                    <input type="submit" name="submitSortSpecie" >
-                </form>
-                <form action="" method="POST">
-                    <select name="SortGender" id="" class="btn btn-primary col-1 ">
-                        <option value= "null"   name=""> No Filter  </option>
-                        <option value="M"       name=""> Only Male  </option>
-                        <option value="F"       name=""> Only Female</option>
-                    </select>
-                    <input type="submit" name="submitSortGender" >
-                </form>
-                
-                
-                
+            <div class="btn-group" role="group">
+                <button type="submit" name="truncate" class="btn btn-danger text-white col-1">Debug Truncate snakes /!\ This empty the database</button> 
             </div>
         </div>
     </div>
@@ -164,18 +166,18 @@
                 <div class="col-12">
                     <div class="row">
                         <td class="col-1 text-center border">   
-                            <a href="index.php?page=modifObj&id=<?php echo $value["snake_id"]; ?>">Modifier</a> </td>
-                        <td class="col-1 border text-center ">  <?php echo $value["snake_id"]; ?>  </td>
-                        <td class="col-1 border text-center ">  <?php echo $value["snake_name"];   ?></td>
-                        <td class="col-1 border text-center ">  <?php echo $value["snake_weight"]; ?> kg </td>
-                        <td class="col-1 border text-center ">  <?php echo $value["snake_H_DoB"]; ?>  </td>
-                        <td class="col-1 border text-center ">  <?php echo $value["snake_lifespan"]; ?> months</td>
-                        <td class="col-1 border text-center ">  <?php echo $value["snake_specie"]; ?>  </td>
-                        <td class="col-1 border text-center ">  <?php echo $value["snake_gender"]; ?>  </td>
-                        <td class="col-1 border text-center ">  <?php echo $value["snake_dad"]; ?>  </td>
-                        <td class="col-1 border text-center ">  <?php echo $value["snake_mom"]; ?>  </td>
+                            <a href="index.php?page=modifObj&id=<?php echo $value["snake_id"];      ?>">Modifier</a>    </td>
+                        <td class="col-1 border text-center ">  <?php echo $value["snake_id"];      ?>                  </td>
+                        <td class="col-1 border text-center ">  <?php echo $value["snake_name"];    ?>                  </td>
+                        <td class="col-1 border text-center ">  <?php echo $value["snake_weight"];  ?> kg               </td>
+                        <td class="col-1 border text-center ">  <?php echo $value["snake_H_DoB"];   ?>                  </td>
+                        <td class="col-1 border text-center ">  <?php echo $value["snake_lifespan"];?> months           </td>
+                        <td class="col-1 border text-center ">  <?php echo $value["snake_specie"];  ?>                  </td>
+                        <td class="col-1 border text-center ">  <?php echo $value["snake_gender"];  ?>                  </td>
+                        <td class="col-1 border text-center ">  <?php echo $value["snake_dad"];     ?>                  </td>
+                        <td class="col-1 border text-center ">  <?php echo $value["snake_mom"];     ?>                  </td>
+                        
                         <?php 
-
                         if($value["snake_dead"] == 0) 
                         {
                             ?> <td class="border col-1 bg-success text-white text-center"><?php
@@ -188,10 +190,9 @@
                         {
                             ?> <td class="border col-1 bg-warning text-white text-center">  Mort <td class="border col-1 bg-dark">
                             <?php
-
+                        
                         }?>
                         </td>
-                        <!-- <td class="col-1"> <form action=""  method="POST"> <input type='submit' value="Supprimer" name="delete"> </form></td> -->
                     </div>
                 </div>
             </div>
