@@ -3,7 +3,7 @@
 // Create an instance of the Snake class with an argument of 0 and a sort variable that is used later on to determine witch sort is activated
     $obj = new Snake(0);
     $sort = null;
-
+    $filter = null;
     // Check if the "generate, SortGender, SortId, SortSpecie" button was pressed
     if(isset($_POST["generate"]))
     {
@@ -21,9 +21,45 @@
     {
         $sort = "specie";
     }
+    if(isset($_POST["M"]))
+    {
+        $filter = "M";
+    }
+    if(isset($_POST["F"]))
+    {
+        $filter = "F";
+    }
+    if(isset($_POST["Off"]))
+    {
+        $filter = null;
+    }
     if(isset($_POST["truncate"]))
     {
         $obj->TruncateTable();
+        
+    }
+    if(isset($_POST["submitFilter"]))
+    {
+        if(isset($_POST["FilterList"]))
+        {
+            $filter = $_POST["submitFilter"];
+        }
+        
+    }
+    if(isset($_POST["submitSortGender"]))
+    {
+        if(isset($_POST["SortGender"]))
+        {
+            $filter = $_POST["submitSortGender"];
+        }
+        
+    }
+    if(isset($_POST["submitSortSpecie"]))
+    {
+        if(isset($_POST["SortSpecie"]))
+        {
+            $filter = $_POST["submitSortSpecie"];
+        }
         
     }
 
@@ -44,16 +80,39 @@
         </div>
         <div class="row">
             <div class="btn-group col-6 offset-3" role="group">
-                <button type="submit" class="btn btn-primary col-1 " name="filterGenderM"> Filter by Gender Males</button>
-                <button type="submit" class="btn btn-primary col-1 " name="filterGenderF"> Filter by Gender Females</button>
-                <button type="submit" class="btn btn-primary col-1 " name="filterOff"> Show all</button>
+                <form action="" method="POST">
+                    <select name="FilterList" id="" class="btn btn-primary col-1 ">
+                        <option value= "null"   name=""> No Filter  </option>
+                        <option value="M"       name=""> Only Male  </option>
+                        <option value="F"       name=""> Only Female</option>
+                    </select>
+                    <input type="submit" name="submitFilter" >
+                </form>
+                <form action="" method="POST">
+                    <select name="SortGender" id="" class="btn btn-primary col-1 ">
+                        <option value= "null"   name=""> No Filter  </option>
+                        <option value="M"       name=""> Only Male  </option>
+                        <option value="F"       name=""> Only Female</option>
+                    </select>
+                    <input type="submit" name="submitSortSpecie" >
+                </form>
+                <form action="" method="POST">
+                    <select name="SortGender" id="" class="btn btn-primary col-1 ">
+                        <option value= "null"   name=""> No Filter  </option>
+                        <option value="M"       name=""> Only Male  </option>
+                        <option value="F"       name=""> Only Female</option>
+                    </select>
+                    <input type="submit" name="submitSortGender" >
+                </form>
+                
                 
                 
             </div>
         </div>
     </div>
 </form>
-<br><br>
+<br>
+<br>
                                     <!-- Message d'info -->
 <div class="container-fluid border bg-warning text-center">
     <div class="row">
@@ -95,9 +154,8 @@
 </table>
 </div>
 <?php
-    foreach($obj->SelectAll($sort) as $value) 
+    foreach($obj->SelectAll($sort, $filter) as $value) 
     {
-        
         ?>
         <table class="container-fluid">
             

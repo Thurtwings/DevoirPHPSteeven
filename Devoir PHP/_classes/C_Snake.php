@@ -15,7 +15,7 @@ class Snake
         $this->sql = new PDO('mysql:host=localhost;dbname=snakes_db', 'root', '');
     }
 
-    public function SelectAll($sort = null)
+    public function SelectAll($sort = null, $filter = null)
     {
         $req = "SELECT * FROM `".$this->SQL_tab."`";
 
@@ -27,8 +27,19 @@ class Snake
         {
             $req .= " ORDER BY `snakes`.`snake_gender` ASC";
         }
+        
+        if($filter === "M")
+        {
+            $req .= " WHERE snake_gender = 'Male'";
+        }
+        elseif($filter === "F")
+        {
+            $req .= "WHERE snake_gender = 'Female'";
+        }
+
         $result = $this->sql->query($req);
         $tlbresult = $result ->fetchAll();
+        
         return $tlbresult;
     }
 
@@ -43,7 +54,7 @@ class Snake
     public function GetName($column, $id)
     {
         // $req = "SELECT ".$column." FROM ".$this->SQL_tab." WHERE snake_id  = '".$this->index."'"; 
-        $req = "SELECT `".$column."` FROM `".$this->SQL_tab."` where `snake_id` = `".$id."`"; 
+        $req = "SELECT `".$column."` FROM `".$this->SQL_tab."` WHERE `snake_id` = `".$id."`"; 
         $this->sql->query($req);
     }
 
@@ -60,24 +71,7 @@ class Snake
         $this->sql->query($req);
     }
 
-    #Trie les serpents par leur espèce
-    public function SortBySpecie()
-    {
-        $req = "SELECT * FROM `snakes` ORDER BY `snakes`.`snake_specie` ASC";
-        $result = $this->sql->query($req);
-        $tlbresult = $result ->fetchAll();
-        return $tlbresult;
-    }
 
-    #Trie les serpents par leur genre
-    public function SortByGender()
-    {
-        $req = "SELECT * FROM `snakes` ORDER BY `snakes`.`snake_gender` ASC";
-        echo " les Serpents sont triés";
-        $result = $this->sql->query($req);
-        $tlbresult = $result ->fetchAll();
-        return $tlbresult;
-    }
 
     public function AddRandomAmountOfSnake($amount = 0, $isRandom)
     {
@@ -125,7 +119,7 @@ class Snake
     }
 
     
-    #fonction fonctionnelle mais temporaire
+#fonctions fonctionnelle mais temporaire
     public function SnakeReproduction($daddy, $mommy)
     {
         $randSex = rand(1,2);
@@ -184,7 +178,6 @@ class Snake
     # Compte tous les serpents confondu de la base de données 
     public function CountAll()
     {
-        
         $req = "SELECT COUNT(*) FROM `".$this->SQL_tab."`";
         $result = $this->sql->query($req);
         $tlbresult = $result ->fetchAll();
