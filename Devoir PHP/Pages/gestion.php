@@ -38,7 +38,7 @@
         $obj->TruncateTable();
         
     }
-    if(isset($_POST["submitFilter"]))
+    if(isset($_POST["submitGenderFilter"]))
     {
         if(isset($_POST["FilterList"]))
         {
@@ -68,7 +68,7 @@
 <br>
 <form action=""  method="POST">
     <div class="container-fluid">
-        <div class=" row">
+        <div class="row">
             <div class="btn-group" role="group">
                 <a href="index.php?page=insertObj" class="btn btn-primary col-1"> Add a new snake</a> 
                 <button type="submit" class="btn btn-primary col-1" name="generate"> Generate </button>
@@ -76,17 +76,19 @@
                 <button type="submit" class="btn btn-primary col-1" name="SortSpecie"> Sort by specie</button>
                 <button type="submit" class="btn btn-primary col-1" name="SortId"> Sort by id</button>
                 <a href="index.php?page=mateObj" class="btn btn-primary col-1"> Mating </a> 
-                <form method="POST" class="">
+            </div>
+        <div >
+            <div class="btn-group" role="group" >
+                <form method="POST" class="col-md">
                     <select name="FilterList" class="btn btn-primary">
                         <option value="null"> No Gender Filter   </option>
                         <option value="M"   > Only Male          </option>
                         <option value="F"   > Only Female        </option>
                     </select>
-                    <input type="submit" value="Submit" name="submitGenderFilter">
+                    <input type="submit" value="Submit" name="submitGenderFilter" class="btn btn-light col-md" >
                 </form>
-                
-                <form method="POST" class="">
-                    <select name="FilterSpecie" class="btn btn-primary">
+                <form method="POST">
+                    <select name="FilterSpecie" class="btn btn-primary col-md">
                         <option value="null"            >No Specie Filter       </option>
                         <option value="Viper"           >All Vipers             </option>
                         <option value="Boa"             >All Boas               </option>
@@ -101,14 +103,20 @@
                         <option value="Anaconda"        >All Anacondas          </option>
                         <option value="Cobra"           >All Cobras             </option>
                     </select>
-                    <input type="submit" value="Submit" name="submitFilterSpecie">
+                    <input type="submit" value="Submit" name="submitFilterSpecie" class="btn btn-light col-md">
                 </form>
+                
             </div>
+        </div>
         </div>
         <br><br>
         <div class="row">
             <div class="btn-group" role="group">
-                <button type="submit" name="truncate" class="btn btn-danger text-white col-1">Debug Truncate snakes /!\ This empty the database</button> 
+                <button type="submit" name="truncate" class="btn btn-danger text-white col-1">
+                    <span style="color: yellow">/!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ </span>
+                    Debug Truncate snakes This empty the table "snakes"
+                    <span style="color: yellow">/!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ </span>
+                </button> 
             </div>
         </div>
     </div>
@@ -166,7 +174,7 @@
                 <div class="col-12">
                     <div class="row">
                         <td class="col-1 text-center border">   
-                            <a href="index.php?page=modifObj&id=<?php echo $value["snake_id"];      ?>">Modifier</a>    </td>
+                            <a href="index.php?page=modifObj&id=<?php echo $value["snake_id"];      ?>">Modify</a>    </td>
                         <td class="col-1 border text-center ">  <?php echo $value["snake_id"];      ?>                  </td>
                         <td class="col-1 border text-center ">  <?php echo $value["snake_name"];    ?>                  </td>
                         <td class="col-1 border text-center ">  <?php echo $value["snake_weight"];  ?> kg               </td>
@@ -181,14 +189,14 @@
                         if($value["snake_dead"] == 0) 
                         {
                             ?> <td class="border col-1 bg-success text-white text-center"><?php
-                            echo "Vivant";?>
+                            echo "Alive and Well";?>
 
-                            <td class="border col-1 text-center"><a href="index.php?page=supprObj&id=<?php echo $value["snake_id"]; ?>"> Tuer </a> 
+                            <td class="border col-1 text-center"><a href="index.php?page=supprObj&id=<?php echo $value["snake_id"]; ?>"> Kill it with fire! </a> 
                             <?php
                         }   
                         else 
                         {
-                            ?> <td class="border col-1 bg-warning text-white text-center">  Mort <td class="border col-1 bg-dark">
+                            ?> <td class="border col-1 bg-warning text-white text-center">  Deceased <td class="border col-1 bg-dark">
                             <?php
                         
                         }?>

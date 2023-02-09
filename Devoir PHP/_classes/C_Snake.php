@@ -6,7 +6,7 @@ class Snake
     private $index = "";
     public $sql ="";
     private $snakesNames = array("Zarce", "Chiksha", "Szaccolhai", "Xaxsairral", "Adhiso", "Chastha", "Nisat", "Ostibhat", "Movastha", "Ladrarkattra", "Iraazs", "Yessish", "Kuscasasj", "Talicsie", "Irjace", "Ashpa", "Khivya", "Vrirmadmu", "Sakitha", "Atahasha", "Aco", "Eksaa", "Crudjuckaazs", "Odizhaash", "Erkuxzai", "Tika", "Ati", "Khahirka", "Isashpat", "Hoswatrala");
-    private $snakesSpecies = array("Cobra", "Anaconda", "Python", "Boa", "Mamba Noir", "Vipère", "Python", "Couleuvre", "Serpent à sonnette", "Serpent corail", "Serpent vert", "Serpent de mer", "Serpent à lunettes");
+    private $snakesSpecies = array("Cobra", "Anaconda", "Python", "Boa", "Black Mamba", "Viper", "Python", "Grass Snake", "Rattlesnake", "Coral Snake", "Green Snake", "Sea Snake", "Spectacled Snake");
 
     # Constructeur Syntaxe exclusive __construct
     public function __construct($id)
@@ -15,7 +15,7 @@ class Snake
         $this->sql = new PDO('mysql:host=localhost;dbname=snakes_db', 'root', '');
     }
 
-    public function SelectAll($sort = null, $filter = null)
+    public function SelectAll($sort = null, $filter = null, $specie = null)
     {
         $req = "SELECT * FROM `".$this->SQL_tab."`";
 
@@ -197,7 +197,7 @@ class Snake
 
 
 
-    # Fonction de debug: vide la table snakes de la bdd
+# Fonction de debug: vide la table snakes de la bdd
     public function TruncateTable()
     {
         $req = "TRUNCATE ".$this->SQL_tab;
@@ -223,10 +223,10 @@ class Snake
 
         $today = strtotime(date("Y-m-d H:i"));
         $start_date = strtotime("-$months months", $today);
-                
+            
         // Generate random number using above bounds
         $val = rand($start_date, $today);
-
+        
         // Convert back to desired date format
         return date('Y-m-d H:i', $val);
 

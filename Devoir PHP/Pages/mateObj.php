@@ -2,8 +2,9 @@
     $obj = new Snake(0);
 
     if(isset($_POST['lovelove'])){
-        echo($_POST['male_snake_id']);
+        
         $obj->SnakeReproduction($_POST['male_snake_id'], $_POST['female_snake_id']);
+        
         echo "Youhou, un nouveau serpent est né!";
     }
 
