@@ -12,7 +12,8 @@
     if($obj->CountAllFemales() == 0 && $obj->CountAllMales() == 0)
     {?>
            <div class="d-flex align-items-center justify-content-center" style="height: 350px;">
-                <h1 class="bg-primary text-white text-center">Il n'y a ni mâle, ni femelle disponible 
+                <h1 class="bg-primary text-white text-center">
+                    Il n'y a ni mâle, ni femelle disponible 
                     <br>
                     <br> 
                     Veuillez retourner au menu Gestion pour en ajouter

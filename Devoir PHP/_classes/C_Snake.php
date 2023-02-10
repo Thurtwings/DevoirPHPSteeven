@@ -5,9 +5,24 @@ class Snake
     private $SQL_tab = "snakes";
     private $index = "";
     public $sql ="";
-    private $snakesNames = array("Zarce", "Chiksha", "Szaccolhai", "Xaxsairral", "Adhiso", "Chastha", "Nisat", "Ostibhat", "Movastha", "Ladrarkattra", "Iraazs", "Yessish", "Kuscasasj", "Talicsie", "Irjace", "Ashpa", "Khivya", "Vrirmadmu", "Sakitha", "Atahasha", "Aco", "Eksaa", "Crudjuckaazs", "Odizhaash", "Erkuxzai", "Tika", "Ati", "Khahirka", "Isashpat", "Hoswatrala");
-    private $snakesSpecies = array("Cobra", "Anaconda", "Python", "Boa", "Black Mamba", "Viper", "Python", "Grass Snake", "Rattlesnake", "Coral Snake", "Green Snake", "Sea Snake", "Spectacled Snake");
+    private $snakesNames = array("Zarce", "Chiksha", "Szaccolhai", 
+                                "Xaxsairral", "Adhiso", "Chastha", 
+                                "Nisat", "Ostibhat", "Movastha", 
+                                "Ladrarkattra", "Iraazs", "Yessish", 
+                                "Kuscasasj", "Talicsie", "Irjace", 
+                                "Ashpa", "Khivya", "Vrirmadmu", 
+                                "Sakitha", "Atahasha", "Aco", 
+                                "Eksaa", "Crudjuckaazs", "Odizhaash", 
+                                "Erkuxzai", "Tika", "Ati", 
+                                "Khahirka", "Isashpat", "Hoswatrala"
+                                );
 
+    private $snakesSpecies = array("Cobra", "Anaconda", "Boa", 
+                                    "Black Mamba", "Viper", "Python", 
+                                    "Grass Snake", "Rattlesnake", "Coral Snake", 
+                                    "Green Snake", "Sea Snake", "Spectacled Snake"
+                                  );
+    
     # Constructeur Syntaxe exclusive __construct
     public function __construct($id)
     {
@@ -15,10 +30,29 @@ class Snake
         $this->sql = new PDO('mysql:host=localhost;dbname=snakes_db', 'root', '');
     }
 
-    public function SelectAll($sort = null, $filter = null, $specie = null)
+    public function SelectAll($sort = null, $filterGender = null, $filterSpecie = null)
     {
         $req = "SELECT * FROM `".$this->SQL_tab."`";
 
+        if($filterGender === "M")
+        {
+            $req .= " WHERE `snakes`.`snake_gender` = 'Male'";
+        }
+
+        elseif($filterGender === "F")
+        {
+            $req .= "WHERE `snakes`.`snake_gender` = 'Female'";
+        }
+        if($filterSpecie !== null)
+        {
+            $req .= " WHERE `snakes`.`snake_specie` = '".$filterSpecie."'";
+        }
+        
+        elseif($filterSpecie !== null && $filterGender !== null)
+        {
+            $req .= " WHERE `snakes`.`snake_specie` = '".$filterSpecie."'";
+        }
+        
         if ($sort === "specie") 
         {
             $req .= " ORDER BY `snakes`.`snake_specie` ASC";
@@ -27,29 +61,25 @@ class Snake
         {
             $req .= " ORDER BY `snakes`.`snake_gender` ASC";
         }
-        
-        if($filter === "M")
-        {
-            $req .= " WHERE snake_gender = 'Male'";
-        }
-        elseif($filter === "F")
-        {
-            $req .= "WHERE snake_gender = 'Female'";
-        }
-
+       
+        echo($req);
         $result = $this->sql->query($req);
         $tlbresult = $result ->fetchAll();
         
         return $tlbresult;
     }
 
-    public function Get($column)
+    public function Get($column, $id)
     {
-        $req = "SELECT ".$column." FROM ".$this->SQL_tab." WHERE snake_id  = '".$this->index."'"; 
+        $req = "SELECT ".$column." FROM ".$this->SQL_tab." WHERE snake_id  = '".$id."'; "; 
+        echo($req);
+        $result = $this->sql->prepare($req);
+        $result->execute();
         $result = $this->sql->query($req);
         $tlbresult = $result ->fetchAll();
         return $tlbresult[0][0]; 
     }
+    
 
     public function GetName($column, $id)
     {
@@ -58,9 +88,9 @@ class Snake
         $this->sql->query($req);
     }
 
-    public function Set($column, $value, $id)
+    public function Set($column, $value)
     {
-        $req = "UPDATE ".$this->SQL_tab." SET ".$column." = '".$value."' WHERE `snake_id` ='".$id."'";
+        $req = "UPDATE ".$this->SQL_tab." SET ".$column." = '".$value."' WHERE `snake_id` ='".$this->index."'";
         $this->sql->query($req);
     }
 
@@ -130,15 +160,27 @@ class Snake
         {
             $life = rand(3,90);
             echo ($this->GetName('snake_name', $daddy));
-            $this->addNew($this->snakesNames[$rdmName], rand(1,50), $life, date('Y-m-d H:i'), $this->snakesSpecies[$rdmSpecie],"Male", $this->Set("snake_dad", $this->GetName('snake_name', $daddy), $daddy), $this->Set("snake_mom", $this->GetName('snake_name', $mommy), $mommy));
+            $this->addNew($this->snakesNames[$rdmName], rand(1,50), $life, date('Y-m-d H:i:s'), $this->snakesSpecies[$rdmSpecie],"Male");
         }   
         else
         {
             $life = rand(3,90);
             echo ($this->GetName('snake_name', $daddy));
-            $this->addNew($this->snakesNames[$rdmName], rand(1,50), $life, date('Y-m-d H:i'), $this->snakesSpecies[$rdmSpecie],"Female", $this->Set("snake_dad", $this->GetName('snake_name', $daddy), $daddy), $this->Set("snake_mom", $this->GetName('snake_name', $mommy), $mommy));
+            $this->addNew($this->snakesNames[$rdmName], rand(1,50), $life, date('Y-m-d H:i:s'), $this->snakesSpecies[$rdmSpecie],"Female");
         }
 
+    }
+    public function CheckLifespan($id) 
+    {
+        $lifespan = $this->Get("snake_lifespan",$id);
+        $dateOfBirth = $this->Get("snake_H_DoB",$id);
+        $currentTime = time();
+        $timeSinceBirth = $currentTime - $dateOfBirth;
+
+        if ($timeSinceBirth > $lifespan) 
+        {
+            $this->KillSnake($id);
+        }
     }
 
 # Fonctions de comptage  
@@ -221,14 +263,14 @@ class Snake
 
         date_default_timezone_set('Europe/Paris');
 
-        $today = strtotime(date("Y-m-d H:i"));
-        $start_date = strtotime("-$months months", $today);
+        $today = strtotime(date("Y-m-d H:i:s"));
+        $start_date = strtotime("-$months seconds", $today);
             
         // Generate random number using above bounds
         $val = rand($start_date, $today);
         
         // Convert back to desired date format
-        return date('Y-m-d H:i', $val);
+        return date('Y-m-d H:i:s', $val);
 
     }
 
