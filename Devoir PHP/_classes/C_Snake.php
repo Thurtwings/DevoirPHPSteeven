@@ -5,6 +5,8 @@ class Snake
     private $SQL_tab = "snakes";
     private $index = "";
     public $sql ="";
+    public $isDead = False;
+    
     private $snakesNames = array("Zarce", "Chiksha", "Szaccolhai", 
                                 "Xaxsairral", "Adhiso", "Chastha", 
                                 "Nisat", "Ostibhat", "Movastha", 
@@ -17,11 +19,11 @@ class Snake
                                 "Khahirka", "Isashpat", "Hoswatrala"
                                 );
 
-    private $snakesSpecies = array("Cobra", "Anaconda", "Boa", 
+    private $snakesSpecies = array  ("Cobra", "Anaconda", "Boa", 
                                     "Black Mamba", "Viper", "Python", 
                                     "Grass Snake", "Rattlesnake", "Coral Snake", 
                                     "Green Snake", "Sea Snake", "Spectacled Snake"
-                                  );
+                                    );
     
     # Constructeur Syntaxe exclusive __construct
     public function __construct($id)
@@ -61,7 +63,7 @@ class Snake
         {
             $req .= " ORDER BY `snakes`.`snake_gender` ASC";
         }
-       
+        
         echo($req);
         $result = $this->sql->query($req);
         $tlbresult = $result ->fetchAll();
@@ -71,8 +73,8 @@ class Snake
 
     public function Get($column, $id)
     {
-        $req = "SELECT ".$column." FROM ".$this->SQL_tab." WHERE snake_id  = '".$id."'; "; 
-        echo($req);
+        $req = "SELECT ".$column." FROM ".$this->SQL_tab." WHERE snake_id  = '".$id."'; ";
+        
         $result = $this->sql->prepare($req);
         $result->execute();
         $result = $this->sql->query($req);
@@ -156,6 +158,7 @@ class Snake
         $rdmName = rand(0, count($this->snakesNames) - 1);
         $rdmSpecie = rand(0, count($this->snakesSpecies) - 1);
         date_default_timezone_set('Europe/Paris');
+
         if($randSex == 1)
         {
             $life = rand(3,90);
@@ -173,13 +176,15 @@ class Snake
     public function CheckLifespan($id) 
     {
         $lifespan = $this->Get("snake_lifespan",$id);
-        $dateOfBirth = $this->Get("snake_H_DoB",$id);
+        $dateOfBirth = strtotime($this->Get("snake_H_DoB",$id));
         $currentTime = time();
-        $timeSinceBirth = $currentTime - $dateOfBirth;
+        $timeSinceBirth = $currentTime - $dateOfBirth;  
+        
 
-        if ($timeSinceBirth > $lifespan) 
+        if (($timeSinceBirth > $lifespan) && !$this->isDead) 
         {
             $this->KillSnake($id);
+            echo "je suis entré dans le if";
         }
     }
 
@@ -231,10 +236,12 @@ class Snake
     # Permet de tuer un serpent dont on renseigne l'identifiant
     public function KillSnake($idSnake)
     {
-        $req = "UPDATE `snakes` SET `snake_dead` = '1' WHERE `snakes`.`snake_id` =".$idSnake;
-        $result = $this->sql->query($req);
-        $tlbresult = $result ->fetchAll();
-        return $tlbresult;
+        if(!$this->isDead)
+        {
+            $req = "UPDATE `".$this->SQL_tab."` SET `snake_dead` = '1' WHERE `".$this->SQL_tab."`.`snake_id` =".$idSnake;
+            $this->isDead = True;
+            $this->sql->query($req);
+        }
     }
 
 
@@ -249,23 +256,24 @@ class Snake
     # Supprime complètement un serpent dont on donne l'identifiant de la base de données
     public function DeleteThisSnake($idSnake)
     {
-        $req = "DELETE FROM `snakes` WHERE `snakes`.`snake_id` =".$idSnake;
+        $req = "DELETE FROM `".$this->SQL_tab."` WHERE `".$this->SQL_tab."`.`snake_id` =".$idSnake;
         $this->sql->query($req);
         
     }
 
-    # Fonction retournant un date aléatoire entre la date d'aujourd'hui, et la date d'aujourd'hui-la durée de vie du serpent
+    # Fonction retournant une date aléatoire entre la date d'aujourd'hui, et la date d'aujourd'hui-la durée de vie du serpent
     function RandomDate($months) 
     {
-        if (!is_int($months) || $months <= 0) {
+        if (!is_int($months) || $months <= 0) 
+        {
             return false;
         }
 
         date_default_timezone_set('Europe/Paris');
 
         $today = strtotime(date("Y-m-d H:i:s"));
-        $start_date = strtotime("-$months seconds", $today);
-            
+        $start_date = strtotime("-$months second", $today);
+        
         // Generate random number using above bounds
         $val = rand($start_date, $today);
         

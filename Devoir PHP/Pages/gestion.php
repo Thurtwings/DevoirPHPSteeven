@@ -6,7 +6,19 @@
     $sort = null;
     $filterGender = null;
     $filterSpecie = null;
-    
+
+
+    $snakes=$obj->SelectAll();
+    //var_dump($snakes);
+    foreach ($snakes as $snake) 
+    {
+        $id = $snake['snake_id'];
+        $obj->CheckLifespan($id);
+    }
+
+$snakesPerPage = 10;
+$snakesPageAmount =ceil( $obj->CountAll() / $snakesPerPage);
+echo ($snakesPageAmount);
 
 
 #Boutons de Tri
@@ -68,7 +80,7 @@
             
         }
     }
-     
+
 ?>
                                     <!-- Boutons d'actions -->
 <br>
@@ -141,11 +153,35 @@
          dont le genre n'est pas identifié pour un total de : 
             <strong><u><span class="text-danger"><?php echo $obj->CountAll(); ?> serpents</span></u></strong> 
              il y a <strong><span class="text-danger"><?php echo $obj->CountDeadSnakes(); ?> </span></strong> serpents décédés
-            <br><br>
+            <br>
+            
+            how many snakes do you want to see per page?
+            
+            <br>
+            <form  class="col-md">
+                    <select name="filterGender" class="btn btn-primary">
+                        
+                        <option value="10"   > 10</option>
+                        <option value="15"   > 15</option>
+                        <option value="20"   > 20</option>
+                        <option value="25"   > 25</option>
+                        <option value="30"   > 30</option>
+                    </select>
+                    <input type="submit" value="Submit" name="submitFilterGender" class="btn btn-light col-md" >
+                </form>
         </label>
     </div>
 </div>
-<br><br>
+<br>
+<div id="pagination">
+    <?php 
+        for ($i=1; $i <= $snakesPageAmount; $i++) 
+        {
+            echo "<a href='?page=$i'>$i</a>&nbsp";
+        }
+    ?>
+</div>
+<br>
 <table>
 <div class="container-fluid">
     <div class="row">

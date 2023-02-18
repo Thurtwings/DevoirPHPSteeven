@@ -7,9 +7,9 @@
 
     if(isset($_POST["yes"]))
     {
-        $obj->KillSnake($obj->Get("snake_id"));
+        $obj->KillSnake($obj->Get("snake_id",$_GET['id']));
         
-        echo "Félicitation vous venez de tuer de sang froid le serpent numéro: ".$obj->Get("snake_id")." et nommé: ".$obj->Get("snake_name");
+        echo "Félicitation vous venez de tuer de sang froid le serpent numéro: ".$obj->Get("snake_id",$_GET['id'])." et nommé: ".$obj->Get("snake_name", $_GET['id']);
         ?><br><br><?php 
         echo "Vous pouvez retourner à la page de gestion";
         exit();

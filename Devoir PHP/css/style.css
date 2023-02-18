@@ -7,4 +7,26 @@ li
     margin-right: 5%;
 }
 
+#pagination{
+	padding:10px;
+}
+#pagination>a{
+	display:inline-block;
+	width:26px;
+	padding:6px;
+	border:solid 1px #F80;
+	background-color:#F80;
+	text-align:center;
+	text-decoration:none;
+	color:#FFF;
+}
+#pagination>a[href]{
+	background-color:#FFF;
+	border:solid 1px #F80;
+	color:#F80;
+}
+#pagination>a[href]:hover{
+	background-color:#F8F8F8;
+}
+
 
