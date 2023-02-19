@@ -12,13 +12,12 @@
     //var_dump($snakes);
     foreach ($snakes as $snake) 
     {
-        $id = $snake['snake_id'];
-        $obj->CheckLifespan($id);
+        
     }
 
-$snakesPerPage = 10;
+/* $snakesPerPage = 10;
 $snakesPageAmount =ceil( $obj->CountAll() / $snakesPerPage);
-echo ($snakesPageAmount);
+echo ($snakesPageAmount); */
 
 
 #Boutons de Tri
@@ -80,7 +79,14 @@ echo ($snakesPageAmount);
             
         }
     }
-
+    if(isset($_POST["submitperPage"]))
+    {
+        if(isset($_POST["SpecieFilter"]))
+        {
+            $filterSpecie = $_POST["SpecieFilter"];
+            
+        }
+    }
 ?>
                                     <!-- Boutons d'actions -->
 <br>
@@ -149,17 +155,17 @@ echo ($snakesPageAmount);
             Il y a actuellement : 
             <strong><span class="text-danger"><?php echo $obj->CountAllMales(); ?>  males</span></strong>, 
             <strong><span class="text-danger"><?php echo $obj->CountAllFemales(); ?> femelles</span></strong> 
-         et <strong><span class="text-danger"><?php echo $obj->CountAllUnidentified(); ?></span></strong> 
-         dont le genre n'est pas identifié pour un total de : 
+        et <strong><span class="text-danger"><?php echo $obj->CountAllUnidentified(); ?></span></strong> 
+        dont le genre n'est pas identifié pour un total de : 
             <strong><u><span class="text-danger"><?php echo $obj->CountAll(); ?> serpents</span></u></strong> 
-             il y a <strong><span class="text-danger"><?php echo $obj->CountDeadSnakes(); ?> </span></strong> serpents décédés
+            il y a <strong><span class="text-danger"><?php echo $obj->CountDeadSnakes(); ?> </span></strong> serpents décédés
             <br>
             
-            how many snakes do you want to see per page?
+            <!-- how many snakes do you want to see per page? -->
             
             <br>
-            <form  class="col-md">
-                    <select name="filterGender" class="btn btn-primary">
+            <!-- <form  class="col-md">
+                    <select name="perPage" class="btn btn-primary">
                         
                         <option value="10"   > 10</option>
                         <option value="15"   > 15</option>
@@ -167,20 +173,13 @@ echo ($snakesPageAmount);
                         <option value="25"   > 25</option>
                         <option value="30"   > 30</option>
                     </select>
-                    <input type="submit" value="Submit" name="submitFilterGender" class="btn btn-light col-md" >
-                </form>
+                    <input type="submit" value="Submit" name="submitperPage" class="btn btn-light col-md" >
+                </form> -->
         </label>
     </div>
 </div>
 <br>
-<div id="pagination">
-    <?php 
-        for ($i=1; $i <= $snakesPageAmount; $i++) 
-        {
-            echo "<a href='?page=$i'>$i</a>&nbsp";
-        }
-    ?>
-</div>
+
 <br>
 <table>
 <div class="container-fluid">
@@ -199,13 +198,13 @@ echo ($snakesPageAmount);
         <label for="" class="col-1 text-center border bg-primary text-white">Kill</label>
     </div>
 </div>
-        
+
 </table>
 </div>
 <?php
     foreach($obj->SelectAll($sort, $filterGender, $filterSpecie) as $value) 
     {
-        
+    
         ?>
         <table class="container-fluid">
         <tr>
@@ -225,7 +224,8 @@ echo ($snakesPageAmount);
                         <td class="col-1 border text-center ">  <?php echo $value["snake_mom"];     ?>                  </td>
                         
                         <?php 
-                        
+                        $id = $value['snake_id'];
+                        $obj->CheckLifespan($id);
                         if($value["snake_dead"] == 0) 
                         {
                             

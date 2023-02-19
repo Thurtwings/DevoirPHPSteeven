@@ -30,7 +30,7 @@
                 <input type="text" name= 'snake_specie' value="">
                 <br>
                 Sexe:<br>
-                <input type="text" name= 'snake_gender' value="">
+                <input type="text" name= 'snake_gender' placeholder="Male / Female">
                 <br>
                 <br>
                 <input type='submit' value="Soumettre" name="SubmitInsert">

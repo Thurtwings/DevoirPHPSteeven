@@ -7,18 +7,92 @@ class Snake
     public $sql ="";
     public $isDead = False;
     
-    private $snakesNames = array("Zarce", "Chiksha", "Szaccolhai", 
-                                "Xaxsairral", "Adhiso", "Chastha", 
-                                "Nisat", "Ostibhat", "Movastha", 
-                                "Ladrarkattra", "Iraazs", "Yessish", 
-                                "Kuscasasj", "Talicsie", "Irjace", 
-                                "Ashpa", "Khivya", "Vrirmadmu", 
-                                "Sakitha", "Atahasha", "Aco", 
-                                "Eksaa", "Crudjuckaazs", "Odizhaash", 
-                                "Erkuxzai", "Tika", "Ati", 
-                                "Khahirka", "Isashpat", "Hoswatrala"
-                                );
-
+    private $maleSnakesNames = array(
+        "Agni",
+        "Arjun",
+        "Bala",
+        "Bhima",
+        "Chandra",
+        "Dhruva",
+        "Gagan",
+        "Girish",
+        "Hari",
+        "Jivan",
+        "Kavi",
+        "Kiran",
+        "Lalit",
+        "Madhav",
+        "Naveen",
+        "Nikhil",
+        "Om",
+        "Pranav",
+        "Raj",
+        "Rakesh",
+        "Ravi",
+        "Rishi",
+        "Rohit",
+        "Sahil",
+        "Sanjay",
+        "Sarvesh",
+        "Shankar",
+        "Shiva",
+        "Sudhir",
+        "Suraj",
+        "Vikram",
+        "Vishal",
+        "Yogi",
+        "Yuvraj",
+        "Zorawar",
+        "Ashwin",
+        "Kamal",
+        "Jaswant",
+        "Jatin",
+        "Shailendra"
+    );
+    private $femaleSnakesNames = array(
+        "Aarti",
+        "Anjali",
+        "Asha",
+        "Chhaya",
+        "Disha",
+        "Gauri",
+        "Geeta",
+        "Indira",
+        "Jyoti",
+        "Kajal",
+        "Kavita",
+        "Kirti",
+        "Lata",
+        "Madhu",
+        "Mala",
+        "Maya",
+        "Meena",
+        "Nalini",
+        "Neha",
+        "Pooja",
+        "Radha",
+        "Rajni",
+        "Reena",
+        "Renu",
+        "Rita",
+        "Sakshi",
+        "Sangita",
+        "Savita",
+        "Shalini",
+        "Shanti",
+        "Shilpa",
+        "Shweta",
+        "Smita",
+        "Sujata",
+        "Sunita",
+        "Supriya",
+        "Swati",
+        "Uma",
+        "Usha",
+        "Vandana",
+        "Veena",
+        "Vidya"
+    );
     private $snakesSpecies = array  ("Cobra", "Anaconda", "Boa", 
                                     "Black Mamba", "Viper", "Python", 
                                     "Grass Snake", "Rattlesnake", "Coral Snake", 
@@ -113,37 +187,37 @@ class Snake
             for($i = 0; $i < $rdmNumber; $i++ )
             {
                 $randSex = rand(1,2);
-                $rdmName = rand(0, count($this->snakesNames) - 1);
+                $rdmName = rand(0, count($this->maleSnakesNames) - 1);
                 $rdmSpecie = rand(0, count($this->snakesSpecies) - 1);
                 if($randSex == 1)
                 {
                     $life = rand(3,90);
-                    $this->addNew($this->snakesNames[$rdmName], rand(1,50), $life, $this->RandomDate($life), $this->snakesSpecies[$rdmSpecie],"Male");
+                    $this->addNew($this->maleSnakesNames[$rdmName], rand(1,50), $life, $this->RandomDate($life), $this->snakesSpecies[$rdmSpecie],"Male");
                 }
                 else
                 {
                     $life = rand(3,90);
-                    $this->addNew($this->snakesNames[$rdmName], rand(1,50), $life, $this->RandomDate($life), $this->snakesSpecies[$rdmSpecie],"Female");
+                    $this->addNew($this->femaleSnakesNames[$rdmName], rand(1,50), $life, $this->RandomDate($life), $this->snakesSpecies[$rdmSpecie],"Female");
                 }
             }
-            echo $rdmNumber." Serpents ont été généré aléatoirement";
+            echo $rdmNumber." serpents ont été générés aléatoirement";
         }
         else
         {
             for($i = 0; $i < $amount; $i++ )
             {
                 $randSex = rand(1,2);
-                $rdmName = rand(0, count($this->snakesNames) - 1);
+                $rdmName = rand(0, count($this->maleSnakesNames) - 1);
                 $rdmSpecie = rand(0, count($this->snakesSpecies) - 1);
                 if($randSex == 1)
                 {
                     $life = rand(3,90);
-                    $this->addNew($this->snakesNames[$rdmName], rand(1,50), $life, $this->RandomDate($life), $this->snakesSpecies[$rdmSpecie],"Male");
+                    $this->addNew($this->maleSnakesNames[$rdmName], rand(1,50), $life, $this->RandomDate($life), $this->snakesSpecies[$rdmSpecie],"Male");
                 }
                 else
                 {
                     $life = rand(3,90);
-                    $this->addNew($this->snakesNames[$rdmName], rand(1,50), $life, $this->RandomDate($life), $this->snakesSpecies[$rdmSpecie],"Female");
+                    $this->addNew($this->femaleSnakesNames[$rdmName], rand(1,50), $life, $this->RandomDate($life), $this->snakesSpecies[$rdmSpecie],"Female");
                 }
             }
             
@@ -155,7 +229,7 @@ class Snake
     public function SnakeReproduction($daddy, $mommy)
     {
         $randSex = rand(1,2);
-        $rdmName = rand(0, count($this->snakesNames) - 1);
+        $rdmName = rand(0, count($this->maleSnakesNames) - 1);
         $rdmSpecie = rand(0, count($this->snakesSpecies) - 1);
         date_default_timezone_set('Europe/Paris');
 
@@ -163,13 +237,13 @@ class Snake
         {
             $life = rand(3,90);
             echo ($this->GetName('snake_name', $daddy));
-            $this->addNew($this->snakesNames[$rdmName], rand(1,50), $life, date('Y-m-d H:i:s'), $this->snakesSpecies[$rdmSpecie],"Male");
+            $this->addNew($this->maleSnakesNames[$rdmName], rand(1,50), $life, date('Y-m-d H:i:s'), $this->snakesSpecies[$rdmSpecie],"Male");
         }   
         else
         {
             $life = rand(3,90);
             echo ($this->GetName('snake_name', $daddy));
-            $this->addNew($this->snakesNames[$rdmName], rand(1,50), $life, date('Y-m-d H:i:s'), $this->snakesSpecies[$rdmSpecie],"Female");
+            $this->addNew($this->femaleSnakesNames[$rdmName], rand(1,50), $life, date('Y-m-d H:i:s'), $this->snakesSpecies[$rdmSpecie],"Female");
         }
 
     }
@@ -178,12 +252,12 @@ class Snake
         $lifespan = $this->Get("snake_lifespan",$id);
         $dateOfBirth = strtotime($this->Get("snake_H_DoB",$id));
         $currentTime = time();
-        $timeSinceBirth = $currentTime - $dateOfBirth;  
-        
+        $timeSinceBirth = $currentTime - $dateOfBirth;
 
+        echo ($timeSinceBirth);
         if (($timeSinceBirth > $lifespan) && !$this->isDead) 
         {
-            $this->KillSnake($id);
+            $this->KillSnake($this->Get("snake_id",$id));
             echo "je suis entré dans le if";
         }
     }
@@ -206,7 +280,7 @@ class Snake
         return $tlbresult[0][0]; 
     }
 
-    # Compte tous les serpent dont le genre n'a pas été renseigné et se retrouve pas defaut à NULL dans la base données
+    # Compte tous les serpents dont le genre n'a pas été renseigné et se retrouve pas defaut à NULL dans la base données
     public function CountAllUnidentified()
     {
         $req ="SELECT count(*) FROM `snakes` WHERE `snake_gender` = NULL";
@@ -272,7 +346,7 @@ class Snake
         date_default_timezone_set('Europe/Paris');
 
         $today = strtotime(date("Y-m-d H:i:s"));
-        $start_date = strtotime("-$months second", $today);
+        $start_date = strtotime("-$months seconds", $today);
         
         // Generate random number using above bounds
         $val = rand($start_date, $today);
