@@ -1,7 +1,7 @@
 <?php 
     include("_classes/C_Snake.php");
 
-    $obj = new Snake(0);
+    $obj = new Snake($_GET["snake_id"]);
     var_dump($_POST);
     
     $male_snake = $_POST["male_snake_id"];
@@ -13,8 +13,8 @@
     VALUES (NULL,".$male_snake.",".$female_snake.",NULL, NULL)";
     $obj->sql->query($req);
     
-     $obj->AddRandomAmountOfSnake(1,true);
-     
+    $obj->AddRandomAmountOfSnake(1,true);
+
 
     
 
