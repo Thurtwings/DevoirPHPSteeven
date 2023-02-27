@@ -15,20 +15,19 @@
         exit();
         
     }
-    if(isset($_POST["nope"]))
+    /* if(isset($_POST["nope"]))
     {
         
         ?><br><br><?php 
         echo "Vous pouvez retourner à la page de Gestion";
         exit();
-    }
+    } */
 
 ?>
 <br>Etes vous sur de vouloir tuer ce serpent?
 <br><br>
 <div>
 <form method="POST"> <input type='submit' value="Oui" name="yes" > </form>
-<form method="POST"> <input type='submit' value="Non" name="nope" > </form>
-
+<form action="index.php?page=gestion" method="POST"> <button>Non</button> </form>
 
 </div>

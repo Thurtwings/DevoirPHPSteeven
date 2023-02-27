@@ -4,20 +4,8 @@ switch ($_GET['page']) {
     case 'accueil':
         $title = 'Accueil';
         break;
-    case 'produits':
-        $title = 'Produits';
-        break;
-    case 'societe':
-        $title = 'Société';
-        break;
-    case 'contact':
-        $title = 'Contact';
-        break;
     case 'admin':
         $title = 'Administration';
-        break;
-    case 'backoffice':
-        $title = 'Combats';
         break;
     case 'gestion':
         $title = 'Gestion';

@@ -6,17 +6,11 @@
     $sort = null;
     $filterGender = null;
     $filterSpecie = null;
+/* 
 
 
-    $snakes=$obj->SelectAll();
-    //var_dump($snakes);
-    foreach ($snakes as $snake) 
-    {
-        
-    }
-
-/* $snakesPerPage = 10;
-$snakesPageAmount =ceil( $obj->CountAll() / $snakesPerPage);
+$snakesPerPage = 10;
+$snakesPageAmount = ceil( $obj->CountAll() / $snakesPerPage);
 echo ($snakesPageAmount); */
 
 
@@ -164,7 +158,7 @@ echo ($snakesPageAmount); */
             <!-- how many snakes do you want to see per page? -->
             
             <br>
-            <!-- <form  class="col-md">
+            <form  class="col-md">
                     <select name="perPage" class="btn btn-primary">
                         
                         <option value="10"   > 10</option>
@@ -174,7 +168,7 @@ echo ($snakesPageAmount); */
                         <option value="30"   > 30</option>
                     </select>
                     <input type="submit" value="Submit" name="submitperPage" class="btn btn-light col-md" >
-                </form> -->
+                </form>
         </label>
     </div>
 </div>
@@ -204,7 +198,7 @@ echo ($snakesPageAmount); */
 <?php
     foreach($obj->SelectAll($sort, $filterGender, $filterSpecie) as $value) 
     {
-    
+    $obj->TimeBeforeDeath($value["snake_id"]);
         ?>
         <table class="container-fluid">
         <tr>
@@ -224,25 +218,35 @@ echo ($snakesPageAmount); */
                         <td class="col-1 border text-center ">  <?php echo $value["snake_mom"];     ?>                  </td>
                         
                         <?php 
-                        $id = $value['snake_id'];
-                        $obj->CheckLifespan($id);
+                        
+                        
                         if($value["snake_dead"] == 0) 
                         {
-                            
+                            $id = $value['snake_id'];
+
+                            if(!$obj->CheckLifespan($id))
+                            {
+                                echo "ce serpent doit mourir";
+                                $obj->KillSnake($id);
+                            }
+                            else
+                            {
                             ?> <td class="border col-1 bg-success text-white text-center">
                             <?php
                             // $obj->CheckLifespan($value["snake_id"]);
-                            echo "Alive and Well";?>
-
+                            echo "Alive and Well";
+                            };?>
+                            
                             <td class="border col-1 text-center"><a href="index.php?page=supprObj&id=<?php echo $value["snake_id"]; ?>"> Kill it with fire! </a> 
                             <?php
                         }   
                         else 
                         {
-                            ?> <td class="border col-1 bg-warning text-white text-center">  Deceased <td class="border col-1 bg-dark">
+                            ?> 
+                            <td class="border col-1 bg-warning text-white text-center">  Deceased <td class="border col-1 bg-warning" >
                             <?php
                         
-                        }?>
+                        } ?>
                         </td>
                     </div>
                 </div>

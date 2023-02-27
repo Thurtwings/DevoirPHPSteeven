@@ -3,7 +3,7 @@ class Snake
 {
     # Variables
     private $SQL_tab = "snakes";
-    private $index = "";
+    public $index = "";
     public $sql ="";
     public $isDead = False;
     
@@ -145,17 +145,31 @@ class Snake
         return $tlbresult;
     }
 
-    public function Get($column, $id)
+    /* public function Get($column, $id)
     {
-        $req = "SELECT ".$column." FROM ".$this->SQL_tab." WHERE snake_id  = '".$id."'; ";
+        $req = "SELECT ".$column." FROM ".$this->SQL_tab." WHERE snake_id  = '".$this->index."'; ";
         
         $result = $this->sql->prepare($req);
         $result->execute();
         $result = $this->sql->query($req);
         $tlbresult = $result ->fetchAll();
         return $tlbresult[0][0]; 
-    }
+    } */
+    public function Get($column, $id)
+{
+    $req = "SELECT ".$column." FROM ".$this->SQL_tab." WHERE snake_id  = '".$this->index."'; ";
     
+    $result = $this->sql->prepare($req);
+    $result->execute();
+    $result = $this->sql->query($req);
+    $tlbresult = $result ->fetchAll();
+
+    if (count($tlbresult) > 0) {
+        return $tlbresult[0][0]; 
+    } else {
+        return null; // or throw an exception, depending on how you want to handle errors
+    }
+}
 
     public function GetName($column, $id)
     {
@@ -247,21 +261,47 @@ class Snake
         }
 
     }
-    public function CheckLifespan($id) 
+    /* public function CheckLifespan($id) 
     {
-        $lifespan = $this->Get("snake_lifespan",$id);
-        $dateOfBirth = strtotime($this->Get("snake_H_DoB",$id));
+        $lifespan = $this->Get("snake_lifespan", $id);
+        $dateOfBirth = strtotime($this->Get("snake_H_DoB", $id));
         $currentTime = time();
         $timeSinceBirth = $currentTime - $dateOfBirth;
 
         echo ($timeSinceBirth);
         if (($timeSinceBirth > $lifespan) && !$this->isDead) 
         {
-            $this->KillSnake($this->Get("snake_id",$id));
+            $this->KillSnake($this->Get("snake_id", $id));
             echo "je suis entré dans le if";
         }
     }
+ */
+public function CheckLifespan($id) 
+{
+    $lifespan = $this->Get("snake_lifespan", $id);
+    $dateOfBirth = strtotime($this->Get("snake_H_DoB", $id));
+    $currentTime = time();
+    $timeSinceBirth = $currentTime - $dateOfBirth;
 
+    if (($timeSinceBirth > $lifespan) && !$this->isDead) 
+    {
+        return true; // The snake should be killed
+    }
+    else
+    {
+        return false; // The snake should not be killed
+    }
+    
+    
+}
+
+public function TimeBeforeDeath($id)
+{
+    $lifespan = $this->Get("snake_lifespan", $id);
+    $dateOfBirth = strtotime($this->Get("snake_H_DoB", $id));
+    echo(strtotime($dateOfBirth + $lifespan));
+    return strtotime($dateOfBirth + $lifespan);
+}
 # Fonctions de comptage  
     public function CountAllMales()
     {
@@ -346,7 +386,7 @@ class Snake
         date_default_timezone_set('Europe/Paris');
 
         $today = strtotime(date("Y-m-d H:i:s"));
-        $start_date = strtotime("-$months seconds", $today);
+        $start_date = strtotime("-$months months", $today);
         
         // Generate random number using above bounds
         $val = rand($start_date, $today);
