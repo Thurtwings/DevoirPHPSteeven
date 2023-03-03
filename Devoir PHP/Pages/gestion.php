@@ -99,6 +99,17 @@ echo ($snakesPageAmount); */
         <div >
             <div class="btn-group" role="group" >
                 <form class="col-md">
+                    <select name="filterGender">
+                        <option>Select Gender</option>
+                        <?php 
+                            foreach ($options as $option) 
+                            {
+                        ?>
+                                <option><?php echo $option['snake_gender']; ?> </option>
+                            <?php 
+                            }
+                        ?>
+                    </select>
                     <select name="filterGender" class="btn btn-primary">
                         <option value="null"> No Gender Filter   </option>
                         <option value="M"   > Only Male          </option>
@@ -198,7 +209,7 @@ echo ($snakesPageAmount); */
 <?php
     foreach($obj->SelectAll($sort, $filterGender, $filterSpecie) as $value) 
     {
-    $obj->TimeBeforeDeath($value["snake_id"]);
+    
         ?>
         <table class="container-fluid">
         <tr>
@@ -211,41 +222,40 @@ echo ($snakesPageAmount); */
                         <td class="col-1 border text-center ">  <?php echo $value["snake_name"];    ?>                  </td>
                         <td class="col-1 border text-center ">  <?php echo $value["snake_weight"];  ?> kg               </td>
                         <td class="col-1 border text-center ">  <?php echo $value["snake_H_DoB"];   ?>                  </td>
-                        <td class="col-1 border text-center ">  <?php echo $value["snake_lifespan"];?> months           </td>
+                        <td class="col-1 border text-center ">  <?php echo $value["snake_lifespan"];?> seconds           </td>
                         <td class="col-1 border text-center ">  <?php echo $value["snake_specie"];  ?>                  </td>
                         <td class="col-1 border text-center ">  <?php echo $value["snake_gender"];  ?>                  </td>
                         <td class="col-1 border text-center ">  <?php echo $value["snake_dad"];     ?>                  </td>
                         <td class="col-1 border text-center ">  <?php echo $value["snake_mom"];     ?>                  </td>
-                        
                         <?php 
-                        
-                        
                         if($value["snake_dead"] == 0) 
                         {
                             $id = $value['snake_id'];
-
-                            if(!$obj->CheckLifespan($id))
+                            
+                            if($obj->CheckLifespan($id))
                             {
-                                echo "ce serpent doit mourir";
-                                $obj->KillSnake($id);
+                                ?> 
+                            <td class="border col-1 bg-warning text-white text-center">  Dying </td>
+                            <td class="border col-1 bg-warning">
+                            
+                            <?php
+                                
                             }
                             else
                             {
-                            ?> <td class="border col-1 bg-success text-white text-center">
+                                ?> <td class="border col-1 bg-success text-white text-center">
+                                <?php
+                                echo "Alive and Well";
+                                ?>
+                                <td class="border col-1 text-center"><a href="index.php?page=supprObj&id=<?php echo $value["snake_id"]; ?>"> Kill it with fire! </a> 
                             <?php
-                            // $obj->CheckLifespan($value["snake_id"]);
-                            echo "Alive and Well";
-                            };?>
-                            
-                            <td class="border col-1 text-center"><a href="index.php?page=supprObj&id=<?php echo $value["snake_id"]; ?>"> Kill it with fire! </a> 
-                            <?php
+                            };
                         }   
                         else 
-                        {
-                            ?> 
-                            <td class="border col-1 bg-warning text-white text-center">  Deceased <td class="border col-1 bg-warning" >
-                            <?php
-                        
+                        {?>
+                            <td class="border col-1 bg-danger text-white text-center">  Deceased <td class="border col-1 bg-danger" >
+                            
+                        <?php
                         } ?>
                         </td>
                     </div>
@@ -258,3 +268,11 @@ echo ($snakesPageAmount); */
     
 
 ?>
+
+<!-- <script type="text/javascript">
+    setTimeout(function () 
+        {
+        location.reload();
+        }, 10000); // rafraîchit la page après 5000 millisecondes (5 secondes)
+</script>
+ -->

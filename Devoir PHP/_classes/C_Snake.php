@@ -114,11 +114,11 @@ class Snake
         {
             $req .= " WHERE `snakes`.`snake_gender` = 'Male'";
         }
-
         elseif($filterGender === "F")
         {
             $req .= "WHERE `snakes`.`snake_gender` = 'Female'";
         }
+
         if($filterSpecie !== null)
         {
             $req .= " WHERE `snakes`.`snake_specie` = '".$filterSpecie."'";
@@ -144,36 +144,28 @@ class Snake
         
         return $tlbresult;
     }
-
-    /* public function Get($column, $id)
+    public function Get($column, $id)
     {
-        $req = "SELECT ".$column." FROM ".$this->SQL_tab." WHERE snake_id  = '".$this->index."'; ";
-        
+        $req = "SELECT ".$column." FROM ".$this->SQL_tab." WHERE snake_id  = '".$id."'; ";
+            
         $result = $this->sql->prepare($req);
         $result->execute();
         $result = $this->sql->query($req);
         $tlbresult = $result ->fetchAll();
-        return $tlbresult[0][0]; 
-    } */
-    public function Get($column, $id)
-{
-    $req = "SELECT ".$column." FROM ".$this->SQL_tab." WHERE snake_id  = '".$this->index."'; ";
-    
-    $result = $this->sql->prepare($req);
-    $result->execute();
-    $result = $this->sql->query($req);
-    $tlbresult = $result ->fetchAll();
 
-    if (count($tlbresult) > 0) {
-        return $tlbresult[0][0]; 
-    } else {
-        return null; // or throw an exception, depending on how you want to handle errors
+        if (count($tlbresult) > 0) 
+        {
+            return $tlbresult[0][0]; 
+        } 
+        else 
+        {
+            return null; // or throw an exception, depending on how you want to handle errors
+        }
     }
-}
 
     public function GetName($column, $id)
     {
-        // $req = "SELECT ".$column." FROM ".$this->SQL_tab." WHERE snake_id  = '".$this->index."'"; 
+        
         $req = "SELECT `".$column."` FROM `".$this->SQL_tab."` WHERE `snake_id` = `".$id."`"; 
         $this->sql->query($req);
     }
@@ -184,7 +176,7 @@ class Snake
         $this->sql->query($req);
     }
 
-    public function addNew($name, $weight, $lifespan, $dateOfBirth, $specie, $gender, $daddy = NULL, $mommy = NULL)
+    public function addNew($name, $weight, $lifespan, $dateOfBirth, $specie, $gender, $daddy = "Unknown", $mommy = "Unknown")
     {
         $req = "INSERT INTO ".$this->SQL_tab." (`snake_id`, `snake_name`, `snake_weight`, `snake_lifespan`, `snake_H_DoB`, `snake_specie`, `snake_gender`, `snake_dad`, `snake_mom`, `snake_dead`) 
         VALUES (NULL, '".$name."','".$weight."', '".$lifespan."', '".$dateOfBirth."', '".$specie."', '".$gender."', '".$daddy."', '".$mommy."', '0')";
@@ -205,12 +197,12 @@ class Snake
                 $rdmSpecie = rand(0, count($this->snakesSpecies) - 1);
                 if($randSex == 1)
                 {
-                    $life = rand(3,90);
+                    $life = rand(30,90);
                     $this->addNew($this->maleSnakesNames[$rdmName], rand(1,50), $life, $this->RandomDate($life), $this->snakesSpecies[$rdmSpecie],"Male");
                 }
                 else
                 {
-                    $life = rand(3,90);
+                    $life = rand(30,90);
                     $this->addNew($this->femaleSnakesNames[$rdmName], rand(1,50), $life, $this->RandomDate($life), $this->snakesSpecies[$rdmSpecie],"Female");
                 }
             }
@@ -225,12 +217,12 @@ class Snake
                 $rdmSpecie = rand(0, count($this->snakesSpecies) - 1);
                 if($randSex == 1)
                 {
-                    $life = rand(3,90);
+                    $life = rand(30,90);
                     $this->addNew($this->maleSnakesNames[$rdmName], rand(1,50), $life, $this->RandomDate($life), $this->snakesSpecies[$rdmSpecie],"Male");
                 }
                 else
                 {
-                    $life = rand(3,90);
+                    $life = rand(30,90);
                     $this->addNew($this->femaleSnakesNames[$rdmName], rand(1,50), $life, $this->RandomDate($life), $this->snakesSpecies[$rdmSpecie],"Female");
                 }
             }
@@ -249,59 +241,42 @@ class Snake
 
         if($randSex == 1)
         {
-            $life = rand(3,90);
+            $life = rand(30,90);
             echo ($this->GetName('snake_name', $daddy));
-            $this->addNew($this->maleSnakesNames[$rdmName], rand(1,50), $life, date('Y-m-d H:i:s'), $this->snakesSpecies[$rdmSpecie],"Male");
+            $this->addNew($this->maleSnakesNames[$rdmName], rand(1,50), $life, date('Y-m-d H:i:s'), $this->snakesSpecies[$rdmSpecie],"Male", $this->Get("snake_name", $daddy), $this->Get("snake_name", $mommy));
         }   
         else
         {
-            $life = rand(3,90);
+            $life = rand(30,90);
             echo ($this->GetName('snake_name', $daddy));
-            $this->addNew($this->femaleSnakesNames[$rdmName], rand(1,50), $life, date('Y-m-d H:i:s'), $this->snakesSpecies[$rdmSpecie],"Female");
-        }
-
-    }
-    /* public function CheckLifespan($id) 
-    {
-        $lifespan = $this->Get("snake_lifespan", $id);
-        $dateOfBirth = strtotime($this->Get("snake_H_DoB", $id));
-        $currentTime = time();
-        $timeSinceBirth = $currentTime - $dateOfBirth;
-
-        echo ($timeSinceBirth);
-        if (($timeSinceBirth > $lifespan) && !$this->isDead) 
-        {
-            $this->KillSnake($this->Get("snake_id", $id));
-            echo "je suis entré dans le if";
+            $this->addNew($this->femaleSnakesNames[$rdmName], rand(1,50), $life, date('Y-m-d H:i:s'), $this->snakesSpecies[$rdmSpecie],"Female", $this->Get("snake_name", $daddy), $this->Get("snake_name", $mommy));
         }
     }
- */
+
 public function CheckLifespan($id) 
 {
+    date_default_timezone_set('Europe/Paris');
     $lifespan = $this->Get("snake_lifespan", $id);
     $dateOfBirth = strtotime($this->Get("snake_H_DoB", $id));
     $currentTime = time();
     $timeSinceBirth = $currentTime - $dateOfBirth;
-
-    if (($timeSinceBirth > $lifespan) && !$this->isDead) 
+    $timeLeft = $lifespan - $timeSinceBirth;
+    if (($timeSinceBirth >= $lifespan) && !$this->isDead) 
     {
-        return true; // The snake should be killed
+        
+        $this->KillSnake($id);
+        return true;
     }
     else
     {
-        return false; // The snake should not be killed
+        
+        return false; 
     }
     
     
 }
 
-public function TimeBeforeDeath($id)
-{
-    $lifespan = $this->Get("snake_lifespan", $id);
-    $dateOfBirth = strtotime($this->Get("snake_H_DoB", $id));
-    echo(strtotime($dateOfBirth + $lifespan));
-    return strtotime($dateOfBirth + $lifespan);
-}
+
 # Fonctions de comptage  
     public function CountAllMales()
     {
@@ -311,7 +286,7 @@ public function TimeBeforeDeath($id)
         return $tlbresult[0][0]; 
     }
 
-    # Compte tous les serpent dont le genre est "Female"
+    # Compte tous les serpents dont le genre est "Female"
     public function CountAllFemales()
     {
         $req ="SELECT count(*) FROM `snakes` WHERE `snake_gender` = 'Female'";
@@ -386,7 +361,7 @@ public function TimeBeforeDeath($id)
         date_default_timezone_set('Europe/Paris');
 
         $today = strtotime(date("Y-m-d H:i:s"));
-        $start_date = strtotime("-$months months", $today);
+        $start_date = strtotime("-$months seconds", $today);
         
         // Generate random number using above bounds
         $val = rand($start_date, $today);
@@ -395,7 +370,26 @@ public function TimeBeforeDeath($id)
         return date('Y-m-d H:i:s', $val);
 
     }
+    /* function RandomDate($months) 
+    {
+        if (!is_int($months) || $months <= 0) 
+        {
+            return false;
+        }
 
+        date_default_timezone_set('Europe/Paris');
+
+        $today = time();
+        $start_date = strtotime("-$months months", $today);
+        
+        // Generate random number using above bounds
+        $val = rand($start_date, $today);
+        
+        // Convert back to desired date format
+            echo (date('Y-m-d H:i:s', $val)."; ");
+        return date('Y-m-d H:i:s', $val);
+    }
+ */
 
 }
 

@@ -1,13 +1,18 @@
 <?php 
     $obj = new Snake(0);
 
-    if(isset($_POST['lovelove'])){
-        
+    if(isset($_POST['lovelove']) && isset($_POST['male_snake_id']) && isset($_POST['female_snake_id'])){
+
+        $male_snake = $obj->Get("snake_name",$_POST['male_snake_id']);
+        $female_snake = $obj->Get("snake_name", $_POST['female_snake_id']);
+    
+        echo "You selected male snake: " . $male_snake. "<br>";
+        echo "You selected female snake: " . $female_snake. "<br>";
+    
         $obj->SnakeReproduction($_POST['male_snake_id'], $_POST['female_snake_id']);
         
         echo "Youhou, un nouveau serpent est né!";
     }
-
 
     if($obj->CountAllFemales() == 0 && $obj->CountAllMales() == 0)
     {
@@ -59,10 +64,7 @@
                     </div>
                 </div> 
             </div>
-        </form> 
-<?php   
-    } 
-?>      <div class="row">
+            <div class="row">
             <div class="col-5 offset-1">
                 <h2>Males</h2>
 <?php 
@@ -72,7 +74,7 @@
         {
 ?> 
             <div class="form-check">
-                <input methode="POST" type="radio" class="form-check-input male" name="male_snake_id" value="<?php echo $value["snake_id"]; ?>">
+                <input method="POST" type="radio" class="form-check-input male" name="male_snake_id" value="<?php echo $value["snake_id"]; ?>">
                 <label class="form-check-label border col-5">
                     Name: <?php echo $value["snake_name"]; ?> 
                 </label>
@@ -94,7 +96,7 @@
                             {
                     ?> 
                                 <div class="form-check">
-                                    <input methode="POST" type="radio" class="form-check-input female" name="female_snake_id" value="<?php echo $value["snake_id"]; ?>">
+                                    <input method="POST" type="radio" class="form-check-input female" name="female_snake_id" value="<?php echo $value["snake_id"]; ?>">
                                     <label class="form-check-label border col-5">
                                         Name: <?php echo $value["snake_name"]; ?> 
                                     </label>
@@ -109,6 +111,18 @@
                     </div>
                 </div>
             </div>
+        </form> 
+<?php   
+    } 
+?>      
 
+
+
+
+
+
+<form action="" method="post">
+
+            </form>
             
         
