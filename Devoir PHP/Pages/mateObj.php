@@ -1,7 +1,8 @@
 <?php 
     $obj = new Snake(0);
 
-    if(isset($_POST['lovelove']) && isset($_POST['male_snake_id']) && isset($_POST['female_snake_id'])){
+    if(isset($_POST['lovelove']) && isset($_POST['male_snake_id']) && isset($_POST['female_snake_id']))
+    {
 
         $male_snake = $obj->Get("snake_name",$_POST['male_snake_id']);
         $female_snake = $obj->Get("snake_name", $_POST['female_snake_id']);
