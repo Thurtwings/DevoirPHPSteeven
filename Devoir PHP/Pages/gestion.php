@@ -88,30 +88,21 @@ echo ($snakesPageAmount); */
     <div class="container-fluid">
         <div class="row">
             <div class="btn-group" role="group">
-                <a href="index.php?page=insertObj" class="btn btn-primary col-1"> Add a new snake</a> 
-                <button type="submit" class="btn btn-primary col-1" name="generate"> Generate </button>
-                <button type="submit" class="btn btn-primary col-1" name="SortGender"> Sort by Gender</button>
-                <button type="submit" class="btn btn-primary col-1" name="SortSpecie"> Sort by specie</button>
-                <button type="submit" class="btn btn-primary col-1" name="SortId"> Sort by id</button>
-                <a href="index.php?page=mateObj" class="btn btn-primary col-1"> Mating </a> 
+                <a href="index.php?page=insertObj" class="btn btn-primary col-1"> Add a new snake</a> <!--  -->
+                <button type="submit" class="btn btn-primary col-1" name="generate"> Generate </button><!--  -->
+                <button type="submit" class="btn btn-primary col-1" name="SortGender"> Sort by Gender</button><!--  -->
+                <button type="submit" class="btn btn-primary col-1" name="SortSpecie"> Sort by specie</button><!--  -->
+                <button type="submit" class="btn btn-primary col-1" name="SortId"> Sort by id</button><!--  -->
+                <a href="index.php?page=mateObj" class="btn btn-primary col-1"> Mating </a> <!--  -->
             </div>
-            <label> Filter by gender</label> <label> Filter by specie</label>
+            <div class="row">
+                <label class="col-2"> Filter by gender</label> <label class="col-2"> Filter by specie</label>
+            </div>
         <div >
             <div class="btn-group" role="group" >
                 <form class="col-md">
-                    <select name="filterGender">
-                        <option>Select Gender</option>
-                        <?php 
-                            foreach ($options as $option) 
-                            {
-                        ?>
-                                <option><?php echo $option['snake_gender']; ?> </option>
-                            <?php 
-                            }
-                        ?>
-                    </select>
                     <select name="filterGender" class="btn btn-primary">
-                        <option value="null"> No Gender Filter   </option>
+                        <option value="Off"> No Gender Filter   </option>
                         <option value="M"   > Only Male          </option>
                         <option value="F"   > Only Female        </option>
                     </select>
@@ -119,19 +110,11 @@ echo ($snakesPageAmount); */
                 </form>
                 <form method="POST">
                     <select name="SpecieFilter" class="btn btn-primary col-md">
-                        <option value="null"            >No Specie Filter       </option>
-                        <option value="Viper"           >All Vipers             </option>
-                        <option value="Boa"             >All Boas               </option>
-                        <option value="Python"          >All Pythons            </option>
-                        <option value="Sea Snake"       >All Sea Snakes         </option>
-                        <option value="Rattlesnake"     >All Rattlesnakes       </option>
-                        <option value="Black Mamba"     >All Black Mambas       </option>
-                        <option value="Coral Snake"     >All Coral Snakes       </option>
-                        <option value="Green Snake"     >All Green Snakes       </option>
-                        <option value="Grass Snake"     >All Grass Snakes       </option>
-                        <option value="Spectacled Snake">All Spectacled Snakes  </option>
-                        <option value="Anaconda"        >All Anacondas          </option>
-                        <option value="Cobra"           >All Cobras             </option>
+                        <option value="all">No Specie Filter</option>
+                        <?php foreach ($obj->snakesSpecies as $key => $value) 
+                        {
+                            echo "<option value='$value'>$value</option>";
+                        }?>
                     </select>
                     <input type="submit" value="Submit" name="submitFilterSpecie" class="btn btn-light col-md">
                 </form>
@@ -164,6 +147,7 @@ echo ($snakesPageAmount); */
         dont le genre n'est pas identifié pour un total de : 
             <strong><u><span class="text-danger"><?php echo $obj->CountAll(); ?> serpents</span></u></strong> 
             il y a <strong><span class="text-danger"><?php echo $obj->CountDeadSnakes(); ?> </span></strong> serpents décédés
+            ce qui donne un total de <strong><u><a href=""><span class="text-danger"><?php echo ($obj->CountAll() - $obj->CountDeadSnakes()); ?> serpents encore en vie!</span></a></u></strong> 
             <br>
             
             <!-- how many snakes do you want to see per page? -->
