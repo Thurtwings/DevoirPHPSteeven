@@ -1,46 +1,46 @@
-<?php
-    session_start();
-    
-    include("_classes/C_Snake.php");
+    <?php
+        session_start();
+        
+        include("_classes/C_Snake.php");
 
-if (isset($_POST['log'])) 
-{
-    //connection a la bdd en PDO
-    $bdd = new PDO('mysql:host=localhost;dbname=snakes_db', 'root', '');
-    //création requête SQL
-    $req = "SELECT * FROM `users` WHERE user_pseudo = '" . $_POST['log'] . "'AND user_password = '" . $_POST['pwd']."'";
-    //execution requête
-    $result = $bdd->query($req);
-    //traitement du résultat ( le transforme en tableau)
-    $tlbresult = $result ->fetchAll();
-    //var_dump($tlbresult);
-    //test si un enregistrement est présent en BDD, si oui on se connecte sinon, 
-    //on ne se connecte pas et on informe l'utilisateur
-
-    if (count($tlbresult) > 0)
+    if (isset($_POST['log'])) 
     {
-        $_SESSION['user_name'] = $tlbresult[0]['user_pseudo'];
-        $_SESSION['user_id'] = $tlbresult[0]['user_id'];
+        //connection a la bdd en PDO
+        $bdd = new PDO('mysql:host=localhost;dbname=snakes_db', 'root', '');
+        //création requête SQL
+        $req = "SELECT * FROM `users` WHERE user_pseudo = '" . $_POST['log'] . "'AND user_password = '" . $_POST['pwd']."'";
+        //execution requête
+        $result = $bdd->query($req);
+        //traitement du résultat ( le transforme en tableau)
+        $tlbresult = $result ->fetchAll();
+        //var_dump($tlbresult);
+        //test si un enregistrement est présent en BDD, si oui on se connecte sinon, 
+        //on ne se connecte pas et on informe l'utilisateur
+
+        if (count($tlbresult) > 0)
+        {
+            $_SESSION['user_name'] = $tlbresult[0]['user_pseudo'];
+            $_SESSION['user_id'] = $tlbresult[0]['user_id'];
+        }
+        else
+        {
+            echo "Mot de passe incorrect";
+        }
     }
-    else
+
+
+    if (isset($_POST['deco1']) || isset( $_GET['deco1']))
     {
-        echo "Mot de passe incorrect";
+        unset($_SESSION);
+        session_destroy();
     }
-}
-
-
-if (isset($_POST['deco1']) || isset( $_GET['deco1']))
-{
-    unset($_SESSION);
-    session_destroy();
-}
 
 
 
-//gestion des pages
-include("referencement.php");
+    //gestion des pages
+    include("referencement.php");
 
-?>
+    ?>
 <!DOCTYPE html>
 <html lang="en">
 </-- index.php -->

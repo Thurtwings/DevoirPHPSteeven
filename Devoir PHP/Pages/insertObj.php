@@ -4,38 +4,45 @@
        $obj = new Snake(0);
        $obj->addNew($_POST["snake_name"], $_POST["snake_weight"], $_POST["snake_lifespan"], $_POST["DateOfBirth"], $_POST["snake_specie"], $_POST["snake_gender"] );
     }
-
 ?>
-    
-    <div class="container bg-grey">
-        <div class="row">
-            
-            <h3 class="text-center"> Ajouter un serpent à la base de données </h3>
-            <form action="" method="POST" class="col-4 offset-4">
-                <br><br>
-        
-                Nom:<br>
-                <input type="text" name= 'snake_name' value="">
-                <br>
-                Poids:<br>
-                <input type="text" name= 'snake_weight' value="">
-                <br>
-                Durée de vie:<br>
-                <input type="text" name= 'snake_lifespan' value="">
-                <br>
-                Date de naissance:<br>
-                <input type="date" name= 'DateOfBirth' value="">
-                <br>
-                Espèce:<br>
-                <input type="text" name= 'snake_specie' value="">
-                <br>
-                Sexe:<br>
-                <input type="text" name= 'snake_gender' placeholder="Male / Female">
-                <br>
-                <br>
-                <input type='submit' value="Soumettre" name="SubmitInsert">
-            </form>
-        </div>
-    
-</div>
 
+<div class="container mt-5">
+    <h3 class="text-center mb-4">Ajouter un serpent à la base de données</h3>
+    <form action="" method="POST" class="col-6 offset-3">
+        <div class="mb-3">
+            <label for="snake_name" class="form-label">Nom:</label>
+            <input type="text" class="form-control" name="snake_name" id="snake_name" value="">
+        </div>
+        <div class="mb-3">
+            <label for="snake_weight" class="form-label">Poids:</label>
+            <input type="text" class="form-control" name="snake_weight" id="snake_weight" value="">
+        </div>
+        <div class="mb-3">
+            <label for="snake_lifespan" class="form-label">Durée de vie:</label>
+            <input type="text" class="form-control" name="snake_lifespan" id="snake_lifespan" value="">
+        </div>
+        <div class="mb-3">
+            <label for="DateOfBirth" class="form-label">Date de naissance:</label>
+            <input type="date" class="form-control" name="DateOfBirth" id="DateOfBirth" value="">
+        </div>
+        <div class="mb-3">
+            <label for="snake_specie" class="form-label">Espèce:</label>
+            <select name="snake_specie" id="snake_specie" class="form-select">
+                <option value="all">Espece Inconnue</option>
+                <?php foreach (getSnakesSpecies() as $key => $value) 
+                {
+                    echo "<option value='$value'>$value</option>";
+                }?>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="snake_gender" class="form-label">Sexe:</label>
+            <select name="snake_gender" id="snake_gender" class="form-select">
+                <option value="all">Genre inconnu</option>
+                <option value="M">Male</option>
+                <option value="F">Femelle</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary" name="SubmitInsert">Soumettre</button>
+    </form>
+</div>
