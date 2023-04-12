@@ -16,7 +16,7 @@ class Snake
     public function __construct($id)
     {
         $this->index = $id;
-        $this->sql = new PDO('mysql:host=localhost;dbname=snakes_db', 'root', '');
+        $this->sql = new PDO('mysql:host=localhost;dbname=snakes_db', 'root', 'root1234');
         $this->reproduced = false;
 
 
@@ -28,7 +28,7 @@ class Snake
     public function SelectAll($sort = null, $filterGender = null, $filterSpecie = null, $limit = null, $offset = null)
     {
         $req = "SELECT * FROM `" . $this->SQL_tab . "`";
-        if($filterSpecie == "Off")
+        if($filterSpecie == "all")
         {
             $filterSpecie = null;
         }
@@ -38,6 +38,7 @@ class Snake
         {
             $filters[] = "`snake_gender` = '" . $filterGender . "'";
         }
+       
         if($filterSpecie !== null) 
         {
             $filters[] = "`snake_specie` = '" . $filterSpecie . "'";
@@ -64,6 +65,7 @@ class Snake
         // Execute the SQL query and return the result
         $result = $this->sql->query($req);
         $tlbresult = $result->fetchAll();
+        echo($req);
         return $tlbresult;
     }
 
@@ -234,10 +236,14 @@ class Snake
             try {
                 if ($snakeDad->Get("snake_gender", $daddy) === "Male") {
                     $mommy = $this->GetAliveSnakeByGenderAndSpecie("Female", $snakeDad->Get("snake_specie", $daddy));
-                } else {
+                } 
+                else 
+                {
                     $daddy = $this->GetAliveSnakeByGenderAndSpecie("Male", $snakeMom->Get("snake_specie", $mommy));
                 }
-            } catch (Exception $e) {
+            } 
+            catch (Exception $e) 
+            {
                 // If there is no snake of the same species available, do not mate
                 echo "No available mate of the same species was found.";
                 return;
@@ -283,74 +289,18 @@ public function GetAliveSnakeByGenderAndSpecie($gender, $specie)
     }
 }
 
-   /*  public function GetAliveSnakeByGender($gender)
-{
-    $req = "SELECT snake_id FROM " . $this->SQL_tab . " WHERE snake_dead = 0 AND snake_gender = :gender LIMIT 1";
-    $stmt = $this->sql->prepare($req);
-    $stmt->bindParam(':gender', $gender);
-    $stmt->execute();
 
-    // Vérifie le nombre de lignes affectées
-    $rowCount = $stmt->rowCount();
-    
-    if ($rowCount > 0) {
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result['snake_id'];
-    } else {
-        // Lancer une exception si le résultat est vide
-        throw new Exception("Aucun serpent trouvé avec le genre: " . $gender);
-    }
-} */
-
-    /* public function CheckLifespan($id)
-    {
-        date_default_timezone_set('Europe/Paris');
-        $lifespan = $this->Get("snake_lifespan", $id);
-        $dateOfBirth = strtotime($this->Get("snake_H_DoB", $id));
-        $currentTime = time();
-        $timeSinceBirth = $currentTime - $dateOfBirth;
-        $timeLeft = $lifespan - $timeSinceBirth;
-        $firstThirdLifespan = $lifespan / 3;
-
-        $reproduced = $this->Get("snake_reproduced", $id);
-
-        if (($timeSinceBirth >= $lifespan) && !$this->isDead)
-        {
-            $this->KillSnake($id);
-            return true;
-        }
-        else if (($timeSinceBirth >= $firstThirdLifespan) && !$reproduced)
-        {
-            if($this->Get("snake_gender", $id) == "Male")
-            {
-                $this->SnakeReproduction($this->Get("snake_id", $id), $this->GetAliveSnakeByGender("Female"));
-                $this->Set("snake_reproduced", $id ,1);
-                echo ("Let's make babies!");
-            }
-            else if($this->Get("snake_gender", $id) == "Female")
-            {
-                $this->SnakeReproduction($this->GetAliveSnakeByGender("Male"),$this->Get("snake_id", $id));
-                $this->Set("snake_reproduced", $id, 1);
-                echo ("Let's make babies!");
-            }
-            else
-            {
-                echo ("no more babies!");
-            }
-        }
-        else
-        {
-            return false;
-        }
-    } */
     public function CheckLifespan($id)
     {
         date_default_timezone_set('Europe/Paris');
         
-        try {
+        try 
+        {
             $lifespan = $this->Get("snake_lifespan", $id);
             $dateOfBirth = strtotime($this->Get("snake_H_DoB", $id));
-        } catch (Exception $e) {
+        } 
+        catch (Exception $e) 
+        {
             echo "Error: ", $e->getMessage();
             return false;
         }
@@ -406,48 +356,7 @@ public function GetAliveSnakeByGenderAndSpecie($gender, $specie)
     }
 
     
-    /* public function CheckLifespan($id)
-    {
-        date_default_timezone_set('Europe/Paris');
-        $lifespan = $this->Get("snake_lifespan", $id);
-        $dateOfBirth = strtotime($this->Get("snake_H_DoB", $id));
-        $currentTime = time();
-        $timeSinceBirth = $currentTime - $dateOfBirth;
-        $timeLeft = $lifespan - $timeSinceBirth;
-        $firstThirdLifespan = $lifespan / 3;
     
-        $reproduced = $this->Get("snake_reproduced", $id);
-    
-        if (($timeSinceBirth >= $lifespan) && !$this->isDead)
-        {
-            $this->KillSnake($id);
-            return true;
-        }
-        else if (($timeSinceBirth >= $firstThirdLifespan) && !$reproduced)
-        {
-            if($this->Get("snake_gender", $id) == "Male")
-            {
-                $this->SnakeReproduction($this->Get("snake_id", $id), $this->GetAliveSnakeByGender("Female"));
-                $this->Set("snake_reproduced", $id ,1);
-                echo ("Let's make babies!");
-            }
-            else if($this->Get("snake_gender", $id) == "Female")
-            {
-                $this->SnakeReproduction($this->GetAliveSnakeByGender("Male"),$this->Get("snake_id", $id));
-                $this->Set("snake_reproduced", $id, 1);
-                echo ("Let's make babies!");
-            }
-            else
-            {
-                echo ("no more babies!");
-            }
-        }
-        else
-        {
-            return false;
-        }
-    }
- */
 # Fonctions de comptage  
     public function CountAllMales()
     {
@@ -491,7 +400,7 @@ public function GetAliveSnakeByGenderAndSpecie($gender, $specie)
         $tlbresult = $result ->fetchAll();
         return $tlbresult[0][0];
     }
-
+    
 
     # Permet de tuer un serpent dont on renseigne l'identifiant
     public function KillSnake($idSnake)

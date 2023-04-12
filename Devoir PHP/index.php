@@ -6,7 +6,7 @@
     if (isset($_POST['log'])) 
     {
         //connection a la bdd en PDO
-        $bdd = new PDO('mysql:host=localhost;dbname=snakes_db', 'root', '');
+        $bdd = new PDO('mysql:host=localhost;dbname=snakes_db', 'root', 'root1234');
         //création requête SQL
         $req = "SELECT * FROM `users` WHERE user_pseudo = '" . $_POST['log'] . "'AND user_password = '" . $_POST['pwd']."'";
         //execution requête
@@ -43,7 +43,7 @@
     ?>
 <!DOCTYPE html>
 <html lang="en">
-</-- index.php -->
+
 
 <head>
     <meta charset="UTF-8">

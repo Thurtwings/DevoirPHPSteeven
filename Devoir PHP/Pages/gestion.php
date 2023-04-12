@@ -44,13 +44,13 @@ if (isset($_POST["truncate"]))
 }
 
 // Gender filter buttons handling
-if (isset($_POST["M"])) 
+if (isset($_POST["Male"])) 
 {
-    $filterGender = "M";
+    $filterGender = "Male";
 }
-if (isset($_POST["F"])) 
+if (isset($_POST["Female"])) 
 {
-    $filterGender = "F";
+    $filterGender = "Female";
 }
 if (isset($_POST["Off"])) 
 {
@@ -83,7 +83,7 @@ if (isset($_POST["submitperPage"]))
 }
 ?>
 
-// HTML code for displaying action buttons, filter buttons, and table of snake data
+<!-- HTML code for displaying action buttons, filter buttons, and table of snake data -->
 <br>
 <form action="" method="POST">
     <div class="container-fluid">
@@ -106,8 +106,8 @@ if (isset($_POST["submitperPage"]))
                     <label>Filter by Gender:</label>
                     <select name="filterGender" class="form-select">
                         <option value="Off">No Gender Filter</option>
-                        <option value="M">Only Male</option>
-                        <option value="F">Only Female</option>
+                        <option value="Male">Only Male</option>
+                        <option value="Female">Only Female</option>
                     </select>
                     <input type="submit" value="Apply" name="submitFilterGender" class="btn btn-light">
                 </form>
@@ -187,16 +187,21 @@ if (isset($_POST["submitperPage"]))
     echo "<li class='page-item $prevDisabled'><a class='page-link' href='$cleanURL$separator" . "pagination_number=" . ($currentPage - 1) . "' tabindex='-1'>Previous</a></li>";
 
     // Page numbers
-    for ($i = 1; $i <= $totalPages; $i++) {
-        if ($i === $currentPage) {
+    for ($i = 1; $i <= $totalPages; $i++) 
+    {
+        if ($i === $currentPage) 
+        {
             echo "<li class='page-item active'><a class='page-link'>$i</a></li>";
-        } else {
+        } 
+        else 
+        {
             echo "<li class='page-item'><a class='page-link' href='$cleanURL$separator" . "pagination_number=$i'>$i</a></li>";
         }
     }
 
     // Next button
     $nextDisabled = ($currentPage == $totalPages) ? "disabled" : "";
+    
     echo "<li class='page-item $nextDisabled'><a class='page-link' href='$cleanURL$separator" . "pagination_number=" . ($currentPage + 1) . "'>Next</a></li>";
 
     echo '</ul>';
@@ -227,7 +232,6 @@ if (isset($_POST["submitperPage"]))
 <?php
     foreach($obj->SelectAll($sort, $filterGender, $filterSpecie, $snakesPerPage, $offset) as $value) 
     {
-    
         ?>
         <table class="container-fluid ">
         <tr>
@@ -235,16 +239,16 @@ if (isset($_POST["submitperPage"]))
                 <div class="col-12">
                     <div class="row">
                         <td class="col-1 text-center border">   
-                            <a href="index.php?page=modifObj&id=<?php echo $value["snake_id"];      ?>">Modify</a>      </td>
-                        <td class="col-1 border text-center ">  <?php echo $value["snake_id"];      ?>                  </td>
-                        <td class="col-1 border text-center ">  <?php echo $value["snake_name"];    ?>                  </td>
-                        <td class="col-1 border text-center ">  <?php echo $value["snake_weight"];  ?> kg               </td>
-                        <td class="col-1 border text-center ">  <?php echo $value["snake_H_DoB"];   ?>                  </td>
-                        <td class="col-1 border text-center ">  <?php echo $value["snake_lifespan"];?> seconds          </td>
-                        <td class="col-1 border text-center ">  <?php echo $value["snake_specie"];  ?>                  </td>
-                        <td class="col-1 border text-center ">  <?php echo $value["snake_gender"];  ?>                  </td>
-                        <td class="col-1 border text-center ">  <?php echo $value["snake_dad"];     ?>                  </td>
-                        <td class="col-1 border text-center ">  <?php echo $value["snake_mom"];     ?>                  </td>
+                            <a href="index.php?page=modifObj&id=<?php echo $value["snake_id"];      ?>">Modify</a></td>
+                        <td class="col-1 border text-center ">  <?php echo $value["snake_id"];      ?>            </td>
+                        <td class="col-1 border text-center ">  <?php echo $value["snake_name"];    ?>            </td>
+                        <td class="col-1 border text-center ">  <?php echo $value["snake_weight"];  ?> kg         </td>
+                        <td class="col-1 border text-center ">  <?php echo $value["snake_H_DoB"];   ?>            </td>
+                        <td class="col-1 border text-center ">  <?php echo $value["snake_lifespan"];?> seconds    </td>
+                        <td class="col-1 border text-center ">  <?php echo $value["snake_specie"];  ?>            </td>
+                        <td class="col-1 border text-center ">  <?php echo $value["snake_gender"];  ?>            </td>
+                        <td class="col-1 border text-center ">  <?php echo $value["snake_dad"];     ?>            </td>
+                        <td class="col-1 border text-center ">  <?php echo $value["snake_mom"];     ?>            </td>
                         <?php 
                         if($value["snake_dead"] == 0) 
                         {

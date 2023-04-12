@@ -3,6 +3,11 @@ if (!isset($_SESSION['user_name']))
 {?>
 
 <div>
+
+
+
+<h1> identifiant : admin <br>
+    mot de passe : admin</h1>
     <form  method="POST">
         Login:<br>
         <input type="text" name= 'log' placeholder= 'Identifiant'>
